@@ -1,0 +1,1240 @@
+<title>App Le Gabriel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Raleway:wght@600;700;800&display=swap">
+<style>
+/* Layout : panneau de présentation sombre à gauche + téléphone au centre (desktop) ; app plein écran sur mobile. Identité reprise de la maquette. */
+:root{
+  color-scheme: light;
+  --night:#0E0E0D; --ink:#151412; --paper:#F5F3EE; --card:#FFFFFF; --stage:#E6E1D6;
+  --line:#E4DFD4; --line-soft:#EEEAE1; --field:#D9D3C6; --dash:#B5AE9F;
+  --muted:#5E5A52; --muted2:#6B665D; --body2:#3F3C35;
+  --gold:#C9A45C; --gold-deep:#B8924A; --gold-text:#7F6128;
+  --on-dark:#FFFFFF; --on-dark-muted:#CFC9BD; --on-dark-soft:#B5AFA3; --dark-line:#3A3730; --dark-2:#2A2823;
+  --ok:#22603B; --ok-bg:#E6F0E8; --ok-dot:#2F7A4B;
+  --warn:#7A4B0C; --warn-bg:#F6ECDC; --warn-dot:#B7791F;
+  --bad:#8A3226; --bad-bg:#F6E3DF; --danger:#9A3B2E;
+  --display: Raleway, "Avenir Next", "Segoe UI", sans-serif;
+  --text: Barlow, "Helvetica Neue", system-ui, sans-serif;
+}
+html,body{height:100%}
+body{margin:0;background:var(--stage);color:var(--ink);font-family:var(--text);font-size:16px;-webkit-font-smoothing:antialiased}
+*{box-sizing:border-box}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer;text-align:inherit;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+h1,h2,h3,p{margin:0}
+h1,h2{text-wrap:balance}
+.ic{flex-shrink:0;display:block}
+#root{height:100%}
+
+/* ---------- Vue d'ensemble ---------- */
+.ov{min-height:100%;display:grid;grid-template-columns:430px minmax(0,1fr);background:var(--paper)}
+.ov-left{background:var(--night);color:var(--on-dark);padding:44px 40px 40px;display:flex;flex-direction:column;gap:28px}
+.ov-left img{width:132px;height:132px;object-fit:cover;margin-left:-12px}
+.ov-left h1{font-family:var(--display);font-weight:800;font-size:34px;line-height:1.12}
+.ov-left p{font-size:17px;line-height:1.5;color:var(--on-dark-muted)}
+.label-gold{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);font-weight:600}
+.role-links{display:flex;flex-direction:column;gap:10px;margin-top:auto}
+.role-link{display:flex;align-items:center;gap:14px;padding:16px 18px;border:1px solid var(--dark-line);border-radius:12px;color:var(--on-dark);width:100%;transition:border-color .15s,background .15s}
+.role-link:hover{border-color:var(--gold);background:#17160f}
+.role-link .ic-gold{color:var(--gold)}
+.role-link .stack{flex:1}
+.role-link .t{font-size:18px;font-weight:600}
+.role-link .s{font-size:14px;color:var(--on-dark-soft)}
+.role-link .chev{color:var(--on-dark-soft)}
+.ov-right{padding:48px 48px 40px;display:flex;flex-direction:column;gap:28px;min-width:0}
+.ov-right .label-gold{color:var(--gold-text)}
+.ov-right h2{font-family:var(--display);font-weight:700;font-size:32px}
+.ov-right p.lead{font-size:17px;color:var(--muted);line-height:1.5;max-width:620px}
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);background:var(--card)}
+table{width:100%;border-collapse:collapse;font-size:15px;min-width:640px}
+thead tr{background:#F0EDE6}
+th,td{text-align:left;padding:12px 14px;vertical-align:top}
+thead th{font-weight:600;font-size:14px}
+thead th:first-child{color:var(--muted)}
+tbody tr{border-top:1px solid var(--line)}
+tbody th{font-weight:600}
+td.none{color:var(--muted2)}
+.howto{display:flex;gap:14px;align-items:flex-start;padding:16px 18px;background:var(--card);border:1px solid var(--line);border-radius:14px;max-width:760px}
+.howto .ic{color:var(--gold-text);margin-top:2px}
+.howto p{font-size:15px;line-height:1.5;color:var(--body2)}
+.howto strong{color:var(--ink)}
+.ov-actions{display:flex;gap:10px;flex-wrap:wrap}
+
+/* ---------- Démo par rôle ---------- */
+.split{height:100%;display:grid;grid-template-columns:360px minmax(0,1fr)}
+.panel{background:var(--night);color:var(--on-dark);padding:28px 26px;display:flex;flex-direction:column;gap:24px;overflow-y:auto}
+.panel-top{display:flex;align-items:center;gap:12px}
+.panel-top img{width:64px;height:64px;object-fit:cover;border-radius:8px}
+.panel-top .t{font-family:var(--display);font-weight:700;font-size:18px}
+.panel-top .s{font-size:14px;color:var(--on-dark-muted)}
+.panel .role-link{padding:12px 14px;position:relative}
+.panel .role-link .t{font-size:16px}
+.panel .role-link .s{font-size:13px}
+.panel .role-link[aria-current="true"]{border-color:var(--gold);background:#1c1a15}
+.ping{width:9px;height:9px;border-radius:999px;background:var(--gold);box-shadow:0 0 0 3px rgba(201,164,92,.25)}
+.panel-sec{display:flex;flex-direction:column;gap:10px}
+.sees{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px}
+.sees li{display:flex;gap:10px;font-size:14px;line-height:1.4;color:var(--on-dark-muted)}
+.sees li .ic{color:var(--gold);margin-top:1px}
+.steps{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px}
+.step{display:flex;align-items:center;gap:12px;width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--dark-line);color:var(--on-dark)}
+.step:hover{border-color:var(--gold)}
+.step .n{width:24px;height:24px;border-radius:999px;border:1.5px solid var(--dark-line);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--on-dark-muted);flex-shrink:0}
+.step.done .n{background:var(--gold);border-color:var(--gold);color:var(--ink)}
+.step .stack{flex:1}
+.step .t{font-size:14px;font-weight:600}
+.step .s{font-size:12px;color:var(--on-dark-soft)}
+.step.done .t{color:var(--on-dark-muted)}
+.panel-foot{margin-top:auto;display:flex;flex-direction:column;gap:8px}
+.pbtn{min-height:44px;padding:0 14px;border-radius:10px;border:1px solid var(--dark-line);color:var(--on-dark);font-size:15px;font-weight:600;display:flex;align-items:center;gap:10px}
+.pbtn:hover{border-color:var(--gold)}
+.pbtn.warn{border-color:var(--danger);color:#F2C6BE}
+.stage{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:20px;overflow:auto;min-width:0}
+.stage-cap{font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.phone{width:390px;height:860px;max-height:calc(100% - 34px);min-height:560px;border:10px solid var(--night);border-radius:48px;overflow:hidden;box-shadow:0 30px 60px -20px rgba(14,14,13,.45),0 0 0 1px #2a2823;background:var(--paper);flex-shrink:0}
+.mbar{display:none;align-items:center;justify-content:space-between;gap:10px;padding:8px 14px;background:#000;color:var(--on-dark-muted);font-size:13px}
+.mbar button{color:var(--gold);font-weight:600;min-height:32px}
+
+/* ---------- App (dans le téléphone) ---------- */
+.app{height:100%;display:flex;flex-direction:column;background:var(--paper);color:var(--ink);position:relative;overflow:hidden}
+.scroll{flex:1;overflow-y:auto;overscroll-behavior:contain;display:flex;flex-direction:column}
+.hdr{background:var(--night);padding:22px 20px;display:flex;flex-direction:column;gap:18px;color:var(--on-dark)}
+.hdr.sub{padding:16px 12px 22px;gap:10px}
+.hdr.plain{padding:26px 20px 22px;gap:4px}
+.hdr-top{display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:8px;color:var(--gold);min-height:44px}
+.brand span{font-family:var(--display);font-weight:800;letter-spacing:.14em;font-size:15px}
+.hdr-actions{display:flex;align-items:center;gap:10px}
+.apt{font-size:14px;font-weight:600;border:1px solid var(--dark-line);border-radius:999px;padding:6px 12px}
+.bell{width:44px;height:44px;border-radius:999px;border:1px solid var(--dark-line);display:flex;align-items:center;justify-content:center;position:relative;color:var(--on-dark)}
+.bdot{position:absolute;top:9px;right:10px;width:8px;height:8px;border-radius:999px;background:var(--gold)}
+.rbadge{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--dark-line);border-radius:999px;padding:6px 12px}
+.rbadge.gold{background:var(--gold);color:var(--ink);border-color:var(--gold)}
+.eyebrow{font-size:14px;color:var(--gold);font-weight:600}
+.hdr h1{font-family:var(--display);font-weight:700;font-size:26px;color:var(--on-dark)}
+.hdr h1.big{font-size:28px}
+.hdr .lead{font-size:15px;color:var(--on-dark-muted);line-height:1.4}
+.hdr .inner{padding:0 8px;display:flex;flex-direction:column;gap:4px}
+.back{display:flex;align-items:center;gap:4px;min-height:44px;color:var(--gold);font-size:15px;font-weight:600;align-self:flex-start}
+.body{flex:1;padding:20px;display:flex;flex-direction:column;gap:20px}
+.sec{display:flex;flex-direction:column;gap:10px}
+.sec-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+.h2{font-size:17px;font-weight:600}
+.h2.sm{font-size:16px}
+.link{font-size:15px;font-weight:600;color:var(--gold-text);min-height:32px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px}
+.card.pad{padding:16px;display:flex;flex-direction:column;gap:12px}
+.card.strong{border:2px solid var(--ink)}
+.list>*+*{background-image:linear-gradient(var(--line-soft),var(--line-soft));background-size:calc(100% - 32px) 1px;background-position:center top;background-repeat:no-repeat}
+.row{display:flex;align-items:center;gap:12px;padding:14px 16px;width:100%;color:var(--ink)}
+button.row:hover,button.cardbtn:hover{background-color:#FBFAF7}
+.stack{display:flex;flex-direction:column;gap:2px;flex:1;min-width:0}
+.t{font-size:16px;font-weight:600}
+.t.lg{font-size:18px}
+.s{font-size:14px;color:var(--muted);line-height:1.35}
+.xs{font-size:13px;color:var(--muted);line-height:1.4}
+.appt{width:52px;flex-shrink:0;font-family:var(--display);font-weight:700;font-size:16px;font-variant-numeric:tabular-nums}
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:600;padding:5px 10px;border-radius:999px;white-space:nowrap;flex-shrink:0}
+.pill.sm{font-size:13px;padding:4px 9px}
+.pill .dot{width:7px;height:7px;border-radius:999px;background:currentColor}
+.pill.ok{color:var(--ok);background:var(--ok-bg)} .pill.ok .dot{background:var(--ok-dot)}
+.pill.warn{color:var(--warn);background:var(--warn-bg)} .pill.warn .dot{background:var(--warn-dot)}
+.pill.bad{color:var(--bad);background:var(--bad-bg)} .pill.bad .dot{background:var(--danger)}
+.pill.danger{color:#fff;background:var(--danger)}
+.pill.dark{color:#fff;background:var(--ink)}
+.pill.gold{color:var(--ink);background:var(--gold)}
+.pill.outline{color:var(--ink);border:1px solid #CFC8BA;padding:4px 9px}
+.pill.outline.sm{padding:3px 9px}
+.banner{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:14px;background:var(--ink);color:#fff;width:100%}
+.banner .s{color:var(--on-dark-muted)}
+.circ{width:44px;height:44px;flex-shrink:0;border-radius:999px;background:var(--dark-2);display:flex;align-items:center;justify-content:center;color:var(--gold)}
+.cardbtn{display:flex;flex-direction:column;gap:14px;padding:16px;width:100%;background:var(--card);border:1px solid var(--line);border-radius:14px;color:var(--ink)}
+.between{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.center{align-items:center}
+.bars{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.bars span{height:5px;border-radius:3px;background:var(--line)}
+.bars span.on{background:var(--gold-deep)}
+.meta{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--muted)}
+.meta.ok{color:var(--ok);font-weight:600;font-size:15px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{min-height:44px;padding:0 16px;border-radius:999px;border:1px solid var(--field);background:var(--card);font-size:15px;font-weight:600;color:var(--ink)}
+.chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
+.switch{width:52px;height:32px;flex-shrink:0;border-radius:999px;padding:3px;display:flex;justify-content:flex-start;background:var(--field);transition:background .2s}
+.switch span{width:26px;height:26px;border-radius:999px;background:#fff;display:block;transition:background .2s}
+.switch[aria-checked="true"]{background:var(--ink);justify-content:flex-end}
+.switch[aria-checked="true"] span{background:var(--gold)}
+.switch.live{background:var(--danger)}
+.switch.live[aria-checked="true"]{background:var(--ok-dot)}
+.switch.live span,.switch.live[aria-checked="true"] span{background:#fff}
+.btn{min-height:54px;width:100%;border-radius:12px;background:var(--ink);color:#fff;font-size:17px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:8px;padding:0 18px}
+.btn:hover{background:#2a2823}
+.btn.ghost{background:transparent;border:1px solid var(--ink);color:var(--ink);font-size:16px;min-height:50px}
+.btn.ghost:hover{background:#fff}
+.btn.md{min-height:50px;font-size:16px}
+.btn.sm{min-height:44px;width:auto;font-size:15px;border-radius:10px;padding:0 14px}
+.btn.sm.ghost{min-height:44px}
+.btn.on-dark{background:transparent;border:1px solid var(--dark-line);color:#fff}
+.btn.danger{background:var(--danger)}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.fld{display:flex;flex-direction:column;gap:8px}
+.fld label,.lbl{font-size:16px;font-weight:600}
+input[type=text],select,textarea{font-family:var(--text);font-size:16px;padding:12px 14px;border:1px solid var(--field);border-radius:12px;background:var(--card);color:var(--ink);width:100%;min-height:48px}
+textarea{resize:none;line-height:1.4}
+input.big{font-family:var(--display);font-weight:700;font-size:20px}
+.dashbtn{display:flex;align-items:center;justify-content:center;gap:8px;min-height:48px;border:1px dashed var(--dash);border-radius:12px;font-size:15px;font-weight:600;color:var(--ink);cursor:pointer}
+.dashbtn:hover{background:#fff}
+.photo{position:relative;border-radius:10px;overflow:hidden;background:var(--line-soft)}
+.photo img{display:block;width:100%;max-height:180px;object-fit:cover}
+.photo .x{position:absolute;top:8px;right:8px;width:36px;height:36px;border-radius:999px;background:rgba(14,14,13,.7);color:#fff;display:flex;align-items:center;justify-content:center}
+.ph{height:110px;border-radius:10px;background:var(--line-soft);border:1px dashed var(--dash);display:flex;align-items:center;justify-content:center;gap:8px;font-size:14px;color:var(--muted)}
+.okbox{display:flex;align-items:center;gap:10px;min-height:52px;padding:10px 14px;border:1px solid var(--ink);border-radius:12px;font-size:15px;font-weight:600;line-height:1.35}
+.dark{background:var(--ink);color:#fff;border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:10px}
+.dark .s,.dark p{color:var(--on-dark-muted);font-size:15px;line-height:1.5}
+.dark .gold{color:var(--gold)}
+.info{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border-radius:12px;background:var(--line-soft);font-size:14px;color:var(--body2);line-height:1.4}
+.soft{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;font-size:14px;font-weight:500}
+.soft.warn{background:var(--warn-bg);color:#6A410A}
+.soft.bad{background:var(--bad-bg);color:var(--bad)}
+.soft.plain{background:var(--paper);color:var(--body2);font-size:15px;padding:12px 14px}
+.days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+.day{min-height:64px;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border:1px solid var(--line);background:var(--card)}
+.day[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
+.day .dw{font-size:12px;font-weight:500}
+.day .dn{font-size:17px;font-weight:600}
+.day .dd{width:6px;height:6px;border-radius:999px;background:transparent}
+.day .dd.busy{background:var(--warn-dot)}
+.day .dd.mine{background:var(--gold)}
+.slot{min-height:64px;border-radius:12px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:2px;padding:0 14px;border:1px solid var(--line);background:var(--card)}
+.slot .t{font-size:16px}
+.slot .xs{color:inherit}
+.slot[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.slot:disabled{background:var(--line-soft);color:var(--muted2);text-decoration:line-through;cursor:not-allowed}
+.tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.tile{min-height:124px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;display:flex;flex-direction:column;justify-content:space-between;gap:10px;color:var(--ink)}
+.tile:hover{border-color:#CFC8BA}
+.count{min-width:24px;height:24px;padding:0 6px;border-radius:999px;background:var(--ink);color:var(--gold);font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:2px;text-align:left}
+.stat b{font-family:var(--display);font-size:28px;font-weight:700;font-variant-numeric:tabular-nums}
+.stat span{font-size:14px;color:var(--muted)}
+.stat.hot{background:var(--ink);color:#fff;border-color:var(--ink)}
+.stat.hot b{color:var(--gold)} .stat.hot span{color:#fff}
+.opt{display:flex;align-items:center;gap:12px;min-height:60px;padding:10px 14px;border-radius:12px;background:var(--card);border:1px solid var(--line);width:100%;text-align:left}
+.opt[aria-pressed="true"]{border:2px solid var(--ink);padding:9px 13px}
+.radio{width:20px;height:20px;flex-shrink:0;border-radius:999px;border:2px solid var(--dash)}
+.opt[aria-pressed="true"] .radio{border:6px solid var(--ink)}
+.tl{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.tl li{display:flex;gap:14px}
+.tl .rail{display:flex;flex-direction:column;align-items:center}
+.tl .mk{width:24px;height:24px;border-radius:999px;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:2px solid #CFC8BA;background:#fff;color:#fff}
+.tl .mk.done{background:var(--ink);border-color:var(--ink)}
+.tl .mk.cur{border:7px solid var(--gold-deep)}
+.tl .ln{width:2px;flex-grow:1;background:var(--line);min-height:22px}
+.tl .ln.done{background:var(--ink)}
+.tl .tx{padding-bottom:16px;display:flex;flex-direction:column;gap:2px}
+.tl .tx .t.todo{color:var(--muted)}
+.tl .tx .s.cur{color:var(--gold-text);font-weight:600}
+.tsteps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.tsteps div{display:flex;flex-direction:column;gap:6px}
+.tsteps .b{height:6px;border-radius:3px;background:var(--line)}
+.tsteps .b.done{background:var(--ink)} .tsteps .b.cur{background:var(--gold-deep)}
+.tsteps .l{font-size:13px;font-weight:500;color:var(--muted2)}
+.tsteps .l.done{color:var(--ink)} .tsteps .l.cur{color:var(--ink);font-weight:700}
+.mission{border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:10px;width:100%;background:var(--card);border:1px solid var(--line);color:var(--ink)}
+.mission.hot{background:var(--ink);color:#fff;border-color:var(--ink)}
+.mission .when{font-size:14px;font-weight:600;color:var(--gold-text)}
+.mission.hot .when{color:var(--gold)}
+.mission .big{font-family:var(--display);font-size:26px;font-weight:700}
+.mission .ttl{font-size:18px;font-weight:600}
+.mission.hot .meta{color:var(--on-dark-muted)}
+.quote{font-size:16px;line-height:1.45}
+.empty{padding:20px 16px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px}
+.empty .s{max-width:260px}
+.done-screen{flex:1;padding:32px 24px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center}
+.done-screen .big-ic{width:64px;height:64px;border-radius:999px;background:var(--ink);display:flex;align-items:center;justify-content:center;color:var(--gold)}
+.done-screen h2{font-family:var(--display);font-size:24px;font-weight:700}
+.done-screen p{font-size:16px;color:var(--muted);line-height:1.5}
+.tabs{flex-shrink:0;height:calc(78px + env(safe-area-inset-bottom, 0px));background:var(--card);border-top:1px solid var(--line);display:flex;justify-content:space-around;align-items:flex-start;padding:8px 4px env(safe-area-inset-bottom, 0px)}
+.tab{width:66px;min-height:52px;display:flex;flex-direction:column;align-items:center;gap:4px;color:var(--muted2);font-size:12px;font-weight:500;text-align:center}
+.tab[aria-current="page"]{color:var(--ink);font-weight:600}
+.fab{width:48px;height:48px;margin-top:-18px;border-radius:999px;background:var(--ink);display:flex;align-items:center;justify-content:center;border:3px solid var(--card);color:var(--gold)}
+.tab[aria-current="page"] .fab{background:var(--gold-deep);color:var(--ink)}
+.tab.fabtab{color:var(--ink);font-weight:600}
+.sheet-back{position:absolute;inset:0;background:rgba(14,14,13,.5);display:flex;align-items:flex-end;z-index:20;animation:fade .15s ease-out}
+.sheet{background:var(--paper);width:100%;border-radius:22px 22px 0 0;padding:20px 20px calc(26px + env(safe-area-inset-bottom, 0px));max-height:85%;overflow-y:auto;display:flex;flex-direction:column;gap:14px;animation:up .2s ease-out}
+.sheet-h{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.sheet-h h2{font-family:var(--display);font-size:21px;font-weight:700}
+.xbtn{width:40px;height:40px;border-radius:999px;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;background:#fff}
+.notif{display:flex;gap:12px;padding:14px 16px}
+.notif .nd{width:8px;height:8px;border-radius:999px;background:transparent;margin-top:7px;flex-shrink:0}
+.notif.new .nd{background:var(--gold-deep)}
+.toast{position:absolute;left:14px;right:14px;top:14px;z-index:30;background:var(--ink);color:#fff;border-radius:12px;padding:12px 14px;display:flex;gap:10px;align-items:center;font-size:15px;font-weight:600;box-shadow:0 12px 30px -10px rgba(0,0,0,.5);animation:down .22s ease-out}
+.toast .ic{color:var(--gold)}
+@keyframes fade{from{opacity:0}}
+@keyframes up{from{transform:translateY(40px);opacity:.4}}
+@keyframes down{from{transform:translateY(-16px);opacity:0}}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+
+@media (max-width: 1100px){ .ov{grid-template-columns:360px minmax(0,1fr)} .ov-left{padding:36px 28px} .ov-right{padding:36px 28px} }
+@media (max-width: 859px){
+  .ov{grid-template-columns:minmax(0,1fr)}
+  .ov-left{padding:28px 20px;gap:22px}
+  .ov-left img{width:96px;height:96px}
+  .ov-left h1{font-size:28px}
+  .ov-right{padding:28px 20px 40px}
+  .ov-right h2{font-size:26px}
+  .split{display:flex;flex-direction:column}
+  .panel{display:none}
+  .mbar{display:flex;padding-top:calc(8px + env(safe-area-inset-top, 0px));padding-left:calc(14px + env(safe-area-inset-left, 0px));padding-right:calc(14px + env(safe-area-inset-right, 0px))}
+  .ov-left{padding-top:calc(28px + env(safe-area-inset-top, 0px))}
+  .ov-right{padding-bottom:calc(40px + env(safe-area-inset-bottom, 0px))}
+  .split{height:100%;overflow:hidden}
+  .stage{flex:1;padding:0;gap:0;justify-content:stretch;align-items:stretch;overflow:hidden}
+  .stage-cap{display:none}
+  .phone{width:100%;height:100%;max-height:none;min-height:0;border:0;border-radius:0;box-shadow:none}
+}
+</style>
+
+<div id="root"></div>
+
+<script>
+(function () {
+'use strict';
+
+/* ================= Icônes (reprises de la maquette) ================= */
+var P = {
+  building: '<path d="M2 25V9l6-4v20M8 25V5l7-4v24M15 25V6l5 3v16M1 25h20"/>',
+  home: '<path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/>',
+  office: '<path d="M6 21V4h12v17M3 21h18M14 12h.01"/>',
+  wrench: '<path d="M14.5 6.5a4 4 0 0 0-5.3 5L4 16.7 7.3 20l5.2-5.2a4 4 0 0 0 5-5.3l-2.6 2.6-2.4-.6-.6-2.4z"/>',
+  box: '<path d="M3.5 7.5 12 3l8.5 4.5v9L12 21l-8.5-4.5z"/><path d="M3.5 7.5 12 12l8.5-4.5M12 12v9"/>',
+  chevR: '<path d="m9 6 6 6-6 6"/>',
+  chevL: '<path d="m15 6-6 6 6 6"/>',
+  bell: '<path d="M6 9a6 6 0 1 1 12 0c0 5 2 6.5 2 6.5H4S6 14 6 9zM10 19a2 2 0 0 0 4 0"/>',
+  pool: '<path d="M3 17c2 0 2-1.5 4.5-1.5S9.5 17 12 17s2.5-1.5 4.5-1.5S19 17 21 17M3 12c2 0 2-1.5 4.5-1.5S9.5 12 12 12s2.5-1.5 4.5-1.5S19 12 21 12M9 9V5.5a2 2 0 0 1 4 0"/>',
+  lounge: '<path d="M4 11V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v3M3 11h18v6H3zM5 17v2M19 17v2"/>',
+  gym: '<path d="M6 8v8M18 8v8M3 10v4M21 10v4M6 12h12"/>',
+  check: '<path d="m5 12.5 4.5 4.5L19 7.5"/>',
+  clip: '<rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1M9 10h6M9 14h6M9 18h3"/>',
+  plus: '<path d="M12 5v14M5 12h14"/>',
+  cal: '<rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/>',
+  grid: '<rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/>',
+  camera: '<path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/>',
+  clock: '<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',
+  lock: '<rect x="5" y="11" width="14" height="9.5" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>',
+  person: '<circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/>',
+  elevator: '<rect x="5" y="3" width="14" height="18" rx="1.5"/><path d="m9 9 3-3 3 3M9 15l3 3 3-3"/>',
+  chat: '<path d="M4 5h16v11H9l-5 4z"/>',
+  doc: '<path d="M7 3h7l4 4v14H7zM14 3v4h4M10 12h5M10 16h5"/>',
+  info: '<circle cx="12" cy="12" r="8.5"/><path d="M12 11v5M12 8h.01"/>',
+  pin: '<path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0C18.5 15.4 12 21 12 21z"/><circle cx="12" cy="10" r="2.5"/>',
+  mega: '<path d="M4 10v4h3l7 4V6L7 10zM17 9.5a3.5 3.5 0 0 1 0 5"/>',
+  shield: '<path d="M12 3 5 6v5c0 4.5 3 8.5 7 10 4-1.5 7-5.5 7-10V6z"/>',
+  reset: '<path d="M4 12a8 8 0 1 0 2.3-5.6M4 4v4h4"/>',
+  x: '<path d="M6 6l12 12M18 6 6 18"/>',
+  eye: '<path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/>'
+};
+function ic(n, size, sw) {
+  size = size || 22; sw = sw || 1.8;
+  var vb = n === 'building' ? '0 0 22 26' : '0 0 24 24';
+  var w = n === 'building' ? Math.round(size * 22 / 26) : size;
+  return '<svg class="ic" width="' + w + '" height="' + size + '" viewBox="' + vb + '" fill="none" stroke="currentColor" stroke-width="' + sw + '" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + P[n] + '</svg>';
+}
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+
+/* ================= Données de référence ================= */
+var DAYS = [
+  { dow: 'mer', num: '30', long: 'Mercredi 30 septembre', short: 'Ce soir' },
+  { dow: 'jeu', num: '1', long: 'Jeudi 1er octobre', short: 'Jeu. 1er oct.' },
+  { dow: 'ven', num: '2', long: 'Vendredi 2 octobre', short: 'Ven. 2 oct.' },
+  { dow: 'sam', num: '3', long: 'Samedi 3 octobre', short: 'Sam. 3 oct.' },
+  { dow: 'dim', num: '4', long: 'Dimanche 4 octobre', short: 'Dim. 4 oct.' },
+  { dow: 'lun', num: '5', long: 'Lundi 5 octobre', short: 'Lun. 5 oct.' },
+  { dow: 'mar', num: '6', long: 'Mardi 6 octobre', short: 'Mar. 6 oct.' }
+];
+var RANGES = ['17 h – 21 h', '18 h – 23 h', '13 h – 17 h'];
+var ESLOTS = ['8 h – 11 h', '9 h – 12 h', '13 h – 16 h', '16 h – 19 h'];
+var REASONS = [{ id: 'Emménagement', label: 'Emménagement' }, { id: 'Déménagement', label: 'Déménagement' }, { id: 'Livraison de meubles', label: 'Livraison de meubles' }];
+var CATS = [
+  { id: 'plomberie', label: 'Plomberie', title: 'Souci de plomberie' },
+  { id: 'electricite', label: 'Électricité', title: 'Souci électrique' },
+  { id: 'stores', label: 'Stores / fenêtres', title: 'Store ou fenêtre' },
+  { id: 'electro', label: 'Électroménager', title: 'Électroménager' },
+  { id: 'chauffage', label: 'Chauffage / clim', title: 'Chauffage / climatisation' },
+  { id: 'autre', label: 'Autre', title: 'Autre demande' }
+];
+var PROS = {
+  entretien: { name: 'Entretien Gabriel', meta: "Équipe de l'immeuble" },
+  plomb: { name: 'Plomberie Saint-Denis', meta: 'Plomberie · disponible cet après-midi' },
+  electro: { name: 'Électro-Service', meta: 'Électroménagers · demain matin' }
+};
+var SLOTS = [
+  { day: 'today', time: '16 h 30 – 17 h 30' },
+  { day: 'tomorrow', time: '9 h – 11 h' },
+  { day: 'tbd', time: '' }
+];
+var CARRIERS = ['Postes Canada', 'Amazon', 'UPS', 'Purolator', 'Autre'];
+var DIR = { '908': 'Victorien L.', '1204': 'Julie Tremblay', '612': 'Louis Côté', '305': 'Amélie Pelletier', '1507': 'Nadia Bouchard', '412': 'Paul Roy', '1103': 'Sarah Lévesque', '705': 'Famille Morin' };
+var AUD = { all: 'Tout l’immeuble', floors: 'Étages 8 à 10', unit: 'Un appartement' };
+
+/* ================= Horloge de démo : démarre à 14 h 05 ================= */
+function now() { return Math.min(1430, 845 + Math.floor((Date.now() - S.t0) / 60000)); }
+function fmt(m) { var h = Math.floor(m / 60), mm = m % 60; return h + ' h' + (mm ? ' ' + (mm < 10 ? '0' : '') + mm : ''); }
+function rel(m) { var d = now() - m; if (d < 1) return 'à l’instant'; if (d < 60) return 'il y a ' + d + ' min'; return 'il y a ' + Math.floor(d / 60) + ' h'; }
+function slotText(s) { if (!s) return ''; if (s.day === 'tbd') return 'créneau à confirmer'; return (s.day === 'today' ? 'aujourd’hui ' : 'jeudi ') + s.time; }
+function slotOpt(s) { if (s.day === 'tbd') return 'Laisser le technicien proposer'; return (s.day === 'today' ? 'Aujourd’hui ' : 'Demain ') + s.time; }
+function floorOf(a) { var n = parseInt(a, 10); var f = Math.floor(n / 100); return f + (f === 1 ? 'er' : 'e') + ' étage'; }
+function startMin(t) { var m = /(\d+) h ?(\d+)?/.exec(t || ''); return m ? (+m[1]) * 60 + (+(m[2] || 0)) : 9999; }
+
+/* ================= État partagé entre les rôles ================= */
+function seed() {
+  return {
+    t0: Date.now(), nextId: 144,
+    requests: [
+      { id: '0142', appt: '908', title: 'Store du salon', cat: 'stores', desc: 'Le cordon du store du salon est cassé, il ne remonte plus.', hasPhoto: true, access: true, urgent: false, status: 'enroute', pro: 'entretien', slot: { day: 'today', time: '14 h – 16 h' }, eta: '14 h 30', created: 612, log: { envoyee: '10 h 12', prise: '10 h 40', enroute: '13 h 55' } },
+      { id: '0143', appt: '1204', title: 'Robinet de cuisine', cat: 'plomberie', desc: 'Le robinet fuit sous l’évier, j’ai mis un seau.', hasPhoto: true, access: false, urgent: true, status: 'nouvelle', created: 820, log: { envoyee: '13 h 40' } },
+      { id: '0141', appt: '612', title: 'Porte de balcon bloquée', cat: 'stores', desc: 'La porte coulissante du balcon reste coincée à mi-course.', hasPhoto: false, access: true, urgent: false, status: 'nouvelle', created: 785, log: { envoyee: '13 h 05' } },
+      { id: '0139', appt: '305', title: 'Lave-vaisselle', cat: 'electro', desc: 'Le lave-vaisselle ne vidange plus.', hasPhoto: false, access: true, urgent: false, status: 'assignee', pro: 'electro', slot: { day: 'tomorrow', time: '9 h – 11 h' }, created: 540, log: { envoyee: 'hier', prise: 'hier' } },
+      { id: '0128', appt: '908', title: 'Lave-vaisselle', cat: 'electro', desc: 'Le lave-vaisselle fait un bruit anormal.', status: 'terminee', old: true, doneLabel: 'Terminée le 12 septembre', log: {} }
+    ],
+    notifs: [
+      { title: 'Le technicien est en route', body: 'Store du salon · arrivée vers 14 h 30', time: '13 h 55', read: false },
+      { title: 'Colis arrivé à l’accueil', body: 'Postes Canada · étagère B', time: '11 h 20', read: true }
+    ],
+    parcels: [
+      { id: 'p1', appt: '908', carrier: 'Postes Canada', size: 'Moyen carton', shelf: 'B', when: 'Aujourd’hui 11 h 20', time: '11 h 20', given: false },
+      { id: 'p2', appt: '1507', carrier: 'Amazon', size: 'Petit colis', shelf: 'A', when: 'Aujourd’hui 9 h 05', given: false },
+      { id: 'p3', appt: '412', carrier: 'UPS', size: 'Carton', shelf: 'C', when: 'Hier 16 h 40', given: false },
+      { id: 'p4', appt: '1103', carrier: 'Purolator · 2 colis', size: '2 cartons', shelf: 'D', when: 'Hier 10 h 15', given: false },
+      { id: 'p5', appt: '908', carrier: 'Amazon', given: true, givenLabel: 'Récupéré le 26 septembre' },
+      { id: 'p6', appt: '908', carrier: 'Purolator', given: true, givenLabel: 'Récupéré le 19 septembre' }
+    ],
+    visitors: [
+      { id: 'v1', appt: '1204', name: 'Service de ménage', kind: 'service', day: 'Aujourd’hui', time: 'vers 14 h', up: true, arrived: false },
+      { id: 'v2', appt: '1507', name: 'Sophie Martin', kind: 'visiteur', day: 'Aujourd’hui', time: 'vers 16 h 30', up: true, arrived: false },
+      { id: 'v3', appt: '908', name: 'Service de ménage', kind: 'service', day: 'Samedi 3 oct.', time: 'vers 10 h', up: true, arrived: false }
+    ],
+    lounge: [
+      { id: 'L1', day: 0, range: '17 h – 21 h', appt: '1507', note: 'Souper privé', status: 'ok' },
+      { id: 'L2', day: 3, range: '18 h – 23 h', appt: '1204', note: 'Anniversaire, environ 15 personnes', status: 'pending' }
+    ],
+    elevator: [
+      { id: 'E1', slot: 0, appt: '705', reason: 'Emménagement', status: 'ok' }
+    ],
+    announcements: [
+      { id: 'a1', when: 'aujourd’hui', title: 'Piscine fermée jeudi de 8 h à 12 h', body: 'Entretien du filtre. Réouverture à midi.', aud: 'all' },
+      { id: 'a2', when: 'lundi', title: 'Lavage des vitres extérieures', body: 'Semaine du 5 octobre — gardez vos stores baissés.', aud: 'all' }
+    ],
+    messages: [],
+    spaces: { pool: true, gym: true },
+    prefs: { app: true, sms: true, co: true },
+    unseen: {}
+  };
+}
+var KEY = 'gabriel-demo-v1';
+var S = null;
+try { S = JSON.parse(localStorage.getItem(KEY)); } catch (e) { S = null; }
+if (!S || !S.requests || !S.t0) S = seed();
+function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { /* stockage indisponible : la démo marche quand même */ } }
+
+var ui;
+function freshUi() {
+  return {
+    cat: 'plomberie', desc: 'La chasse d’eau de la salle de bain coule sans arrêt.', access: true, urgent: false, photo: null, sentId: null,
+    sheet: null,
+    loungeDay: 0, loungeRange: '18 h – 23 h',
+    vkind: 'visiteur', vname: 'Marc-Antoine Gagnon', vday: 'Aujourd’hui', vtime: 'vers 19 h', vup: false, vsent: false,
+    reason: 'Livraison de meubles', eslot: 1,
+    gfilter: 'all', assign: {},
+    annText: 'Coupure d’eau chaude jeudi de 9 h à 11 h, étages 8 à 10.', aud: 'floors', annUnit: '908', annPosted: false,
+    carrier: 'Amazon', rappt: '908', rsaved: null,
+    msg: '', notes: {}, resetArm: false
+  };
+}
+ui = freshUi();
+
+var nav = { view: 'overview', role: 'resident', screen: 'accueil', param: '' };
+
+/* ================= Rôles ================= */
+var ROLES = {
+  resident: { label: 'Résident', sub: 'Signaler, suivre, réserver', icon: 'home', home: 'accueil', cap: 'Appt 908 · Victorien',
+    sees: ['Ses propres demandes, suivies en temps réel', 'Les créneaux pris au lounge, jamais le nom ni l’appartement', 'Ses colis et les visiteurs qu’il annonce'],
+    tabs: [['accueil', 'Accueil', 'home'], ['suivi', 'Demandes', 'clip'], ['signaler', 'Signaler', 'plus', 1], ['espaces', 'Espaces', 'cal'], ['services', 'Services', 'grid']] },
+  gestion: { label: 'Gestion (Karine)', sub: 'Assigner, suivre, ouvrir / fermer', icon: 'office', home: 'tableau', cap: 'Karine · gestion',
+    sees: ['Toutes les demandes, avec les coordonnées', 'Ouvre ou ferme un espace en un geste', 'Valide les réservations et publie les annonces'],
+    tabs: [['tableau', 'Tableau', 'grid'], ['demandes', 'Demandes', 'wrench'], ['espaces', 'Annonces', 'mega']] },
+  tech: { label: 'Technicien', sub: 'Ses missions, rien d’autre', icon: 'wrench', home: 'missions', cap: 'Entretien Gabriel',
+    sees: ['Uniquement les missions qui lui sont assignées', 'Le numéro d’appartement de ses missions, pas les coordonnées', 'Met à jour le statut : le résident et Karine le voient aussitôt'],
+    tabs: [['missions', 'Missions', 'cal'], ['encours', 'En cours', 'wrench']] },
+  accueil: { label: 'Accueil (réception)', sub: 'Colis et visiteurs attendus', icon: 'box', home: 'colis', cap: 'Réception',
+    sees: ['Le nom du résident seulement, pour les colis et visiteurs', 'Les techniciens attendus, sans le motif des demandes', 'Un clic sur « Remis » prévient le résident'],
+    tabs: [['colis', 'Colis', 'box'], ['visiteurs', 'Visiteurs', 'person']] }
+};
+var TABOF = { suivi: 'suivi', colis: 'services', visiteurs: 'services', ascenseur: 'services', demande: 'demandes', mission: 'missions' };
+
+function ping(role) { if (nav.view !== 'role' || nav.role !== role) S.unseen[role] = true; }
+function notifyRes(title, body) { S.notifs.unshift({ title: title, body: body, time: fmt(now()), read: false }); ping('resident'); }
+function reqById(id) { return S.requests.filter(function (r) { return r.id === id; })[0]; }
+function catOf(id) { return CATS.filter(function (c) { return c.id === id; })[0] || CATS[5]; }
+function mine() { return S.requests.filter(function (r) { return r.appt === '908'; }); }
+function activeMine() { return mine().filter(function (r) { return r.status !== 'terminee'; }).sort(function (a, b) { return b.created - a.created; }); }
+function seesAnn(a) { return a.aud === 'all' || a.aud === 'floors' || (a.aud === 'unit' && a.unit === '908'); }
+function missionsOf(pro) { return S.requests.filter(function (r) { return r.pro === pro && !r.old && r.status !== 'nouvelle'; }); }
+function currentMission() {
+  var ms = missionsOf('entretien');
+  var a = ms.filter(function (r) { return r.status === 'enroute' || r.status === 'surplace'; })[0];
+  if (a) return a;
+  return ms.filter(function (r) { return r.status === 'assignee' && r.slot && r.slot.day === 'today'; }).sort(function (x, y) { return startMin(x.slot.time) - startMin(y.slot.time); })[0];
+}
+
+/* ================= Petits composants ================= */
+function sw(on, act, label, cls) { return '<button type="button" class="switch ' + (cls || '') + '" role="switch" aria-checked="' + (on ? 'true' : 'false') + '" aria-label="' + esc(label) + '" data-act="' + act + '"><span></span></button>'; }
+function chip(on, act, arg, label) { return '<button type="button" class="chip" aria-pressed="' + (on ? 'true' : 'false') + '" data-act="' + act + '" data-arg="' + esc(arg) + '">' + esc(label) + '</button>'; }
+function pill(cls, txt, dot) { return '<span class="pill ' + cls + '">' + (dot ? '<span class="dot"></span>' : '') + esc(txt) + '</span>'; }
+function subHdr(back, go, title, lead, pre) {
+  return '<header class="hdr sub"><button type="button" class="back" data-go="' + go + '">' + ic('chevL', 20, 2) + esc(back) + '</button><div class="inner">' + (pre || '') + '<h1>' + title + '</h1>' + (lead ? '<p class="lead">' + lead + '</p>' : '') + '</div></header>';
+}
+function plainHdr(eyebrow, title) { return '<header class="hdr plain"><div class="eyebrow">' + eyebrow + '</div><h1>' + title + '</h1></header>'; }
+function roleHdr(badge, eyebrow, title) {
+  return '<header class="hdr"><div class="hdr-top"><button type="button" class="brand" data-go="overview" aria-label="Retour à la vue d’ensemble">' + ic('building', 24, 1.6) + '<span>GABRIEL</span></button>' + badge + '</div><div style="display:flex;flex-direction:column;gap:4px">' + (eyebrow ? '<div class="eyebrow">' + eyebrow + '</div>' : '') + '<h1 class="big">' + title + '</h1></div></header>';
+}
+function photoBox(r, label) {
+  if (r.photo) return '<div class="photo"><img src="' + r.photo + '" alt="Photo jointe par le résident"></div>';
+  if (r.hasPhoto) return '<div class="ph">' + ic('camera', 20, 1.7) + esc(label || 'Photo jointe par le résident') + '</div>';
+  return '';
+}
+function accessLine(r, strong) {
+  if (r.access) return '<div class="meta' + (strong ? ' ok' : '') + '">' + ic(strong ? 'check' : 'lock', 18, 2) + 'Accès autorisé en l’absence du résident</div>';
+  return '<div class="meta">' + ic('person', 18, 1.8) + 'Présence du résident requise</div>';
+}
+function gPill(r) {
+  switch (r.status) {
+    case 'nouvelle': return pill('sm ' + (r.urgent ? 'danger' : 'warn'), 'Nouvelle');
+    case 'assignee': return pill('sm outline', 'Planifiée');
+    case 'enroute': return pill('sm dark', 'En route');
+    case 'surplace': return pill('sm dark', 'Sur place');
+    default: return pill('sm ok', 'Terminée');
+  }
+}
+function gSub(r) {
+  var p = r.pro ? PROS[r.pro].name : '';
+  switch (r.status) {
+    case 'nouvelle': return rel(r.created) + (r.urgent ? ' · urgent' : '');
+    case 'assignee': return p + ' · ' + slotText(r.slot);
+    case 'enroute': return p + ' · arrivée ' + (r.eta || '');
+    case 'surplace': return p + ' · sur place depuis ' + r.log.surplace;
+    default: return p + ' · terminée à ' + (r.log.terminee || '');
+  }
+}
+function resPill(r) {
+  switch (r.status) {
+    case 'nouvelle': return pill('outline sm', 'Envoyée');
+    case 'assignee': return pill('outline sm', 'Planifiée');
+    case 'enroute': return pill('dark', 'En route');
+    case 'surplace': return pill('dark', 'Sur place');
+    default: return pill('ok sm', 'Terminée');
+  }
+}
+function resSub(r) {
+  switch (r.status) {
+    case 'nouvelle': return 'Envoyée · en attente de prise en charge';
+    case 'assignee': return 'Technicien assigné · ' + slotText(r.slot);
+    case 'enroute': return 'Arrivée prévue vers ' + r.eta;
+    case 'surplace': return 'Le technicien est sur place';
+    default: return r.doneLabel || ('Terminée aujourd’hui à ' + r.log.terminee);
+  }
+}
+var BARS = { nouvelle: 1, assignee: 2, enroute: 3, surplace: 3, terminee: 4 };
+function bars(r) { var n = BARS[r.status], h = ''; for (var i = 0; i < 4; i++) h += '<span class="' + (i < n ? 'on' : '') + '"></span>'; return '<div class="bars" aria-label="Étape ' + n + ' sur 4">' + h + '</div>'; }
+function poolRow(big) {
+  var o = S.spaces.pool;
+  return { sub: o ? 'Ouverte de 7 h à minuit' : 'Fermée temporairement par la gestion', pill: o ? pill('ok', 'Ouverte', 1) : pill('bad', 'Fermée', 1) };
+}
+function gymRow() { var o = S.spaces.gym; return { sub: o ? 'Ouverte de 7 h à 22 h' : 'Fermée temporairement par la gestion', pill: o ? pill('ok', 'Ouverte', 1) : pill('bad', 'Fermée', 1) }; }
+function loungeOn(day) { return S.lounge.filter(function (l) { return l.day === day && l.status === 'ok'; }); }
+
+/* ================= Écrans · Résident ================= */
+function resTabsHdr() {
+  var unread = S.notifs.some(function (n) { return !n.read; });
+  return '<header class="hdr"><div class="hdr-top"><button type="button" class="brand" data-go="overview" aria-label="Retour à la vue d’ensemble">' + ic('building', 24, 1.6) + '<span>GABRIEL</span></button><div class="hdr-actions"><span class="apt">Appt 908</span><button type="button" class="bell" data-act="openNotifs" aria-label="Notifications' + (unread ? ', nouvelles' : '') + '">' + ic('bell', 20, 1.7) + (unread ? '<span class="bdot"></span>' : '') + '</button></div></div><div style="display:flex;flex-direction:column;gap:4px"><div class="eyebrow">Mercredi 30 septembre</div><h1 class="big">Bonjour Victorien</h1></div></header>';
+}
+
+var R = {};
+R['resident.accueil'] = function () {
+  var waiting = S.parcels.filter(function (p) { return p.appt === '908' && !p.given; });
+  var act = activeMine()[0];
+  var pr = poolRow(), gr = gymRow(), lt = loungeOn(0)[0];
+  var h = resTabsHdr() + '<main class="body">';
+  if (waiting.length) {
+    var last = waiting[waiting.length - 1];
+    h += '<button type="button" class="banner" data-go="resident.colis"><span class="circ">' + ic('box', 22, 1.7) + '</span><span class="stack"><span class="t">' + (waiting.length === 1 ? '1 colis vous attend' : waiting.length + ' colis vous attendent') + ' à l’accueil</span><span class="s">Arrivé ' + (last.time ? 'à ' + last.time : last.when) + ' · ' + esc(last.carrier) + '</span></span>' + ic('chevR', 18) + '</button>';
+  }
+  h += '<section class="sec"><div class="sec-head"><h2 class="h2">En ce moment dans l’immeuble</h2><button type="button" class="link" data-go="resident.espaces">Tout voir</button></div><div class="card list">' +
+    '<div class="row">' + ic('pool', 22, 1.6) + '<div class="stack"><span class="t">Piscine</span><span class="s">' + pr.sub + '</span></div>' + pr.pill + '</div>' +
+    '<div class="row">' + ic('lounge', 22, 1.6) + '<div class="stack"><span class="t">Lounge</span><span class="s">' + (lt ? 'Privatisé ce soir ' + lt.range : 'Libre ce soir · sur réservation') + '</span></div>' + (lt ? pill('warn', 'Réservé', 1) : pill('ok', 'Libre', 1)) + '</div>' +
+    '<div class="row">' + ic('gym', 22, 1.6) + '<div class="stack"><span class="t">Salle d’entraînement</span><span class="s">' + gr.sub + '</span></div>' + gr.pill + '</div>' +
+    '</div></section>';
+  h += '<section class="sec"><h2 class="h2">Ma demande en cours</h2>';
+  if (act) {
+    h += '<button type="button" class="cardbtn" data-go="resident.suivi.' + act.id + '"><div class="between"><div class="stack"><span class="t lg">' + esc(act.title) + '</span><span class="s">' + resSub(act) + '</span></div>' + resPill(act) + '</div>' + bars(act) +
+      '<div class="meta">' + ic(act.access ? 'check' : 'person', 16, 1.8) + (act.access ? 'Accès autorisé en votre absence' : 'Votre présence est requise') + '</div></button>';
+    if (activeMine().length > 1) h += '<button type="button" class="link" style="align-self:flex-start" data-go="resident.suivi">+ ' + (activeMine().length - 1) + ' autre demande en cours</button>';
+  } else {
+    h += '<div class="card empty"><span class="t">Aucune demande en cours</span><span class="s">Un souci dans l’appartement ? Signalez-le en quelques secondes.</span><button type="button" class="btn sm" data-go="resident.signaler">Signaler un souci</button></div>';
+  }
+  h += '</section>';
+  var anns = S.announcements.filter(seesAnn).slice(0, 3);
+  h += '<section class="sec"><h2 class="h2">Annonces</h2><div class="card list">' + anns.map(function (a) {
+    return '<div style="padding:14px 16px;display:flex;flex-direction:column;gap:3px"><span class="xs" style="color:var(--gold-text);font-weight:600">Gestion · ' + esc(a.when) + '</span><span class="t">' + esc(a.title) + '</span><span class="s">' + esc(a.body) + '</span></div>';
+  }).join('') + '</div></section></main>';
+  return h;
+};
+
+R['resident.signaler'] = function () {
+  var h = subHdr('Accueil', 'resident.accueil', 'Signaler un souci', 'La gestion et le technicien sont prévenus directement.');
+  if (ui.sentId) {
+    return h + '<main class="done-screen"><span class="big-ic">' + ic('check', 30, 2.2) + '</span><h2>Demande envoyée</h2><p>Karine a été prévenue. Vous verrez ici quand un technicien est assigné, quand il arrive et quand c’est terminé.</p><button type="button" class="btn md" style="width:auto" data-go="resident.suivi.' + ui.sentId + '">Suivre ma demande</button><button type="button" class="link" data-act="resetSignal">Signaler autre chose</button></main>';
+  }
+  h += '<main class="body" style="gap:22px"><section class="sec"><h2 class="h2 sm">Qu’est-ce qui ne va pas ?</h2><div class="chips">' +
+    CATS.map(function (c) { return chip(ui.cat === c.id, 'pickCat', c.id, c.label); }).join('') + '</div></section>' +
+    '<section class="fld"><label for="desc">Décrivez le problème</label><textarea id="desc" rows="3" data-draft="desc" placeholder="Ex. : le robinet de la cuisine fuit.">' + esc(ui.desc) + '</textarea>' +
+    (ui.photo ? '<div class="photo"><img src="' + ui.photo + '" alt="Photo ajoutée"><button type="button" class="x" data-act="removePhoto" aria-label="Retirer la photo">' + ic('x', 18, 2) + '</button></div>'
+      : '<label class="dashbtn" for="photo-in">' + ic('camera', 20, 1.7) + 'Ajouter une photo<input id="photo-in" type="file" accept="image/*" hidden></label>') +
+    '</section><section class="card list">' +
+    '<div class="row"><div class="stack"><span class="t">Accès en mon absence</span><span class="s">Le technicien peut entrer si je ne suis pas là</span></div>' + sw(ui.access, 'toggleUi', 'Accès en mon absence').replace('data-act="toggleUi"', 'data-act="toggleUi" data-arg="access"') + '</div>' +
+    '<div class="row"><div class="stack"><span class="t">C’est urgent</span><span class="s">Fuite d’eau, plus de chauffage, porte bloquée…</span></div>' + sw(ui.urgent, 'toggleUi', 'C’est urgent').replace('data-act="toggleUi"', 'data-act="toggleUi" data-arg="urgent"') + '</div>' +
+    '</section><button type="button" class="btn" style="margin-top:auto" data-act="sendRequest">Envoyer la demande</button></main>';
+  return h;
+};
+
+R['resident.suivi'] = function () {
+  var all = mine();
+  var r = nav.param ? reqById(nav.param) : activeMine()[0];
+  if (!r) {
+    var h0 = plainHdr('Appt 908', 'Mes demandes') + '<main class="body"><div class="card empty"><span class="t">Aucune demande en cours</span><span class="s">Tout fonctionne dans l’appartement. Si quelque chose casse, signalez-le ici.</span><button type="button" class="btn sm" data-go="resident.signaler">Signaler un souci</button></div>';
+    return h0 + historyBlock(all, null) + '</main>';
+  }
+  var h = subHdr('Accueil', 'resident.accueil', esc(r.title), 'Demande n° ' + r.id + (r.log.envoyee ? ' · envoyée ' + (r.created ? 'aujourd’hui à ' + r.log.envoyee : r.log.envoyee) : ''));
+  h += '<main class="body">';
+  var hero = {
+    nouvelle: ['Karine a reçu votre demande', 'Elle choisit le bon technicien et vous propose un créneau.'],
+    assignee: ['Un technicien est assigné', PROS[r.pro || 'entretien'].name + ' · ' + slotText(r.slot)],
+    enroute: ['Le technicien est en route', 'Arrivée prévue vers ' + r.eta],
+    surplace: ['Le technicien est sur place', 'Arrivé à ' + r.log.surplace],
+    terminee: ['Intervention terminée', r.doneLabel || ('Aujourd’hui à ' + r.log.terminee)]
+  }[r.status];
+  h += '<section class="banner" style="padding:18px"><span class="circ">' + ic(r.status === 'terminee' ? 'check' : 'clock', 22, 1.8) + '</span><div class="stack"><span class="t lg">' + hero[0] + '</span><span class="s" style="font-size:15px">' + esc(hero[1]) + '</span></div></section>';
+  if (!r.old) {
+    var reached = { nouvelle: 0, assignee: 2, enroute: 3, surplace: 4, terminee: 5 }[r.status];
+    var items = [
+      ['Demande envoyée', r.log.envoyee],
+      ['Prise en charge par la gestion', r.log.prise || 'En attente'],
+      ['Technicien assigné', r.pro ? PROS[r.pro].name + ' · ' + slotText(r.slot) : 'Karine choisit un technicien'],
+      ['En route', r.log.enroute ? 'Depuis ' + r.log.enroute : ''],
+      ['Sur place', r.log.surplace ? 'Depuis ' + r.log.surplace : ''],
+      ['Intervention terminée', r.log.terminee ? r.log.terminee + (r.techNote ? ' · « ' + esc(r.techNote) + ' »' : '') : 'Vous serez notifié, même si vous êtes absent']
+    ];
+    h += '<section class="card" style="padding:18px 18px 2px" aria-label="Étapes"><ol class="tl">' + items.map(function (it, i) {
+      var cur = (i === reached && (r.status === 'enroute' || r.status === 'surplace')) || (r.status === 'nouvelle' && i === 1);
+      var done = i <= reached && !cur;
+      var last = i === items.length - 1;
+      return '<li><div class="rail"><span class="mk ' + (done ? 'done' : cur ? 'cur' : '') + '">' + (done ? ic('check', 14, 3) : '') + '</span>' + (last ? '' : '<span class="ln ' + (i < reached ? 'done' : '') + '"></span>') + '</div><div class="tx"><span class="t ' + (done || cur ? '' : 'todo') + '">' + it[0] + '</span>' + (it[1] ? '<span class="s ' + (cur ? 'cur' : '') + '">' + it[1] + '</span>' : '') + '</div></li>';
+    }).join('') + '</ol></section>';
+  }
+  if (r.status !== 'terminee') {
+    var canChange = r.status !== 'surplace';
+    h += '<section class="card row">' + ic('lock', 22, 1.7) + '<div class="stack"><span class="t">' + (r.access ? 'Accès autorisé en votre absence' : 'Présence requise') + '</span><span class="s">' + (canChange ? 'Vous pouvez changer d’avis jusqu’à l’arrivée' : 'Le technicien est déjà sur place') + '</span></div>' + (canChange ? sw(r.access, 'toggleAccess', 'Accès en mon absence').replace('data-act="toggleAccess"', 'data-act="toggleAccess" data-arg="' + r.id + '"') : '') + '</section>';
+  }
+  h += historyBlock(all, r);
+  h += '<button type="button" class="btn ghost" style="margin-top:auto" data-act="openMsg" data-arg="908">Écrire à la gestion</button></main>';
+  return h;
+};
+function historyBlock(all, cur) {
+  var others = all.filter(function (x) { return !cur || x.id !== cur.id; }).sort(function (a, b) { return (b.created || 0) - (a.created || 0); });
+  if (!others.length) return '';
+  return '<section class="sec"><h2 class="h2">Autres demandes</h2><div class="card list">' + others.map(function (x) {
+    return '<button type="button" class="row" data-go="resident.suivi.' + x.id + '"><div class="stack"><span class="t">' + esc(x.title) + '</span><span class="s">' + resSub(x) + '</span></div>' + resPill(x) + '</button>';
+  }).join('') + '</div></section>';
+}
+
+R['resident.espaces'] = function () {
+  var pr = poolRow(), gr = gymRow();
+  var d = ui.loungeDay, cur = DAYS[d];
+  var busy = loungeOn(d).filter(function (l) { return l.appt !== '908'; });
+  var own = S.lounge.filter(function (l) { return l.day === d && l.appt === '908'; }).slice(-1)[0];
+  var h = plainHdr('Mis à jour en temps réel', 'Espaces communs') + '<main class="body" style="gap:16px">';
+  h += '<section class="card pad"><div class="row" style="padding:0">' + ic('pool', 24, 1.6) + '<h2 class="t lg" style="flex:1">Piscine</h2>' + pr.pill + '</div><div class="s" style="font-size:15px">' + (S.spaces.pool ? 'Tous les jours de 7 h à minuit' : 'Fermée par la gestion. Vous serez prévenu à la réouverture.') + '</div><div class="soft warn">' + ic('cal', 18) + 'Fermée jeudi 1er oct. de 8 h à 12 h (entretien)</div></section>';
+  h += '<section class="card pad" style="gap:14px"><div class="row" style="padding:0">' + ic('lounge', 24, 1.6) + '<h2 class="t lg" style="flex:1">Lounge</h2>' + (loungeOn(0).length ? pill('warn', 'Privatisé ce soir', 1) : pill('ok', 'Libre ce soir', 1)) + '</div>';
+  h += '<div class="days">' + DAYS.map(function (x, i) {
+    var b = loungeOn(i).length, m = S.lounge.some(function (l) { return l.day === i && l.appt === '908' && l.status !== 'no'; });
+    return '<button type="button" class="day" aria-pressed="' + (i === d) + '" data-act="pickDay" data-arg="' + i + '" aria-label="' + x.long + (b ? ', réservé' : ', libre') + '"><span class="dw">' + x.dow + '</span><span class="dn">' + x.num + '</span><span class="dd ' + (m ? 'mine' : b ? 'busy' : '') + '"></span></button>';
+  }).join('') + '</div>';
+  h += '<div class="soft plain" style="flex-direction:column;align-items:flex-start;gap:4px"><span class="t">' + cur.long + '</span><span>' + (busy.length ? busy.map(function (l) { return 'Privatisé de ' + l.range.replace('–', 'à'); }).join(', ') + ' — le reste de la journée est libre.' : 'Libre toute la journée.') + '</span></div>';
+  if (own && own.status !== 'no') {
+    h += '<div class="okbox">' + ic('check', 18, 2.2) + (own.status === 'ok' ? 'Réservation confirmée · ' + own.range : 'Demande envoyée à la gestion · ' + own.range) + '</div>';
+  } else {
+    if (own && own.status === 'no') h += '<div class="soft bad">' + ic('info', 18) + 'La gestion n’a pas pu accepter ce créneau. Essayez un autre horaire.</div>';
+    h += '<div class="fld"><label for="lrange">Horaire souhaité</label><select id="lrange" data-draft="loungeRange">' + RANGES.map(function (x) { return '<option' + (x === ui.loungeRange ? ' selected' : '') + '>' + x + '</option>'; }).join('') + '</select></div>';
+    h += '<button type="button" class="btn md" data-act="requestLounge">Demander une réservation</button>';
+  }
+  h += '<p class="xs">Les autres résidents voient le créneau pris, jamais votre nom ni votre appartement.</p></section>';
+  h += '<section class="card row" style="padding:16px">' + ic('gym', 24, 1.6) + '<div class="stack"><h2 class="t lg">Salle d’entraînement</h2><span class="s" style="font-size:15px">' + (S.spaces.gym ? 'Tous les jours de 7 h à 22 h' : 'Fermée temporairement') + '</span></div>' + gr.pill + '</section></main>';
+  return h;
+};
+
+R['resident.services'] = function () {
+  var n = S.parcels.filter(function (p) { return p.appt === '908' && !p.given; }).length;
+  function tile(go, icon, t, s, extra, act) {
+    return '<button type="button" class="tile" ' + (act ? 'data-act="' + act + '" data-arg="908"' : 'data-go="' + go + '"') + '><div class="between center">' + ic(icon, 26, 1.6) + (extra || '') + '</div><span class="stack"><span class="t" style="font-size:17px">' + t + '</span><span class="s">' + s + '</span></span></button>';
+  }
+  var h = plainHdr('Appt 908', 'Services') + '<main class="body" style="gap:22px"><section class="tiles">' +
+    tile('resident.colis', 'box', 'Colis', n ? n + ' à récupérer' : 'Aucun en attente', n ? '<span class="count">' + n + '</span>' : '') +
+    tile('resident.visiteurs', 'person', 'Visiteurs', 'Prévenir l’accueil') +
+    tile('resident.ascenseur', 'elevator', 'Ascenseur de service', 'Déménagement, livraison') +
+    tile('', 'chat', 'Écrire à la gestion', 'Question, bail…', '', 'openMsg') + '</section>';
+  h += '<section class="sec"><h2 class="h2">Documents</h2><div class="card list">' + ['Mon bail', 'Règlement de l’immeuble', 'Guide du résident (poubelles, recyclage…)'].map(function (d) {
+    return '<button type="button" class="row" data-act="openDoc" data-arg="' + esc(d) + '">' + ic('doc', 20, 1.6) + '<span class="t" style="flex:1;font-weight:500">' + d + '</span><span style="color:var(--muted)">' + ic('chevR', 18) + '</span></button>';
+  }).join('') + '</div></section>';
+  h += '<section class="sec"><h2 class="h2">Contacts utiles</h2><div class="card list">' +
+    '<div class="row"><span class="stack"><span class="t">Sécurité</span><span class="s">Urgence, bruit, accès · 24 h/24</span></span><button type="button" class="btn sm danger" data-act="call" data-arg="la sécurité">Appeler</button></div>' +
+    '<div class="row"><span class="stack"><span class="t">Karine</span><span class="s">Gestion de l’immeuble</span></span><button type="button" class="btn sm ghost" data-act="openMsg" data-arg="908">Écrire</button></div>' +
+    '<div class="row"><span class="stack"><span class="t">Accueil</span><span class="s">24 h/24 · colis et visiteurs</span></span><button type="button" class="btn sm ghost" data-act="call" data-arg="l’accueil">Appeler</button></div>' +
+    '</div></section></main>';
+  return h;
+};
+
+R['resident.colis'] = function () {
+  var waiting = S.parcels.filter(function (p) { return p.appt === '908' && !p.given; });
+  var done = S.parcels.filter(function (p) { return p.appt === '908' && p.given; });
+  var h = subHdr('Services', 'resident.services', 'Mes colis', 'L’accueil vous prévient dès qu’un colis arrive.') + '<main class="body" style="gap:22px">';
+  if (waiting.length) {
+    h += waiting.map(function (p) {
+      return '<section class="card strong" style="padding:18px;display:flex;flex-direction:column;gap:14px"><div class="between center"><span class="xs" style="font-size:14px;font-weight:600;color:var(--gold-text)">À récupérer à l’accueil</span><span class="s">' + esc(p.when) + '</span></div><div class="row" style="padding:0;gap:14px"><span class="circ" style="width:52px;height:52px;border-radius:12px;background:var(--ink)">' + ic('box', 26, 1.6) + '</span><span class="stack"><span class="t lg">' + esc(p.carrier) + '</span><span class="s" style="font-size:15px">' + esc(p.size) + ' · étagère ' + p.shelf + '</span></span></div><div class="soft plain">' + ic('clock', 18) + 'Récupérable à l’accueil, 24 h/24</div></section>';
+    }).join('');
+  } else {
+    h += '<div class="card empty">' + ic('box', 26, 1.6) + '<span class="t">Aucun colis en attente</span><span class="s">Vous recevrez une notification dès que l’accueil en enregistre un.</span></div>';
+  }
+  h += '<section class="sec"><h2 class="h2">Me prévenir par</h2><div class="chips">' + chip(S.prefs.app, 'togglePref', 'app', 'Notification de l’app') + chip(S.prefs.sms, 'togglePref', 'sms', 'SMS') + '</div>' +
+    '<div class="card row"><span class="stack"><span class="t">Colocataire autorisé</span><span class="s">Peut récupérer mes colis à l’accueil</span></span>' + sw(S.prefs.co, 'togglePref', 'Colocataire autorisé').replace('data-act="togglePref"', 'data-act="togglePref" data-arg="co"') + '</div></section>';
+  if (done.length) h += '<section class="sec"><h2 class="h2">Déjà récupérés</h2><div class="card list">' + done.map(function (p) {
+    return '<div class="row"><span class="stack"><span class="t">' + esc(p.carrier) + '</span><span class="s">' + esc(p.givenLabel) + '</span></span><span style="color:var(--ok)">' + ic('check', 18, 2.2) + '</span></div>';
+  }).join('') + '</div></section>';
+  return h + '</main>';
+};
+
+R['resident.visiteurs'] = function () {
+  var h = subHdr('Services', 'resident.services', 'Prévenir l’accueil', 'Un visiteur ou un service à domicile ? L’accueil saura qu’il est attendu.') + '<main class="body">';
+  if (ui.vsent) {
+    h += '<div class="okbox">' + ic('check', 18, 2.2) + 'L’accueil est prévenu · vous serez notifié à son arrivée</div><button type="button" class="btn ghost" data-act="newVisitor">Annoncer quelqu’un d’autre</button>';
+  } else {
+    h += '<section class="sec"><h2 class="h2 sm">Qui arrive ?</h2><div class="chips">' + chip(ui.vkind === 'visiteur', 'pickKind', 'visiteur', 'Visiteur') + chip(ui.vkind === 'service', 'pickKind', 'service', 'Service (ménage…)') + '</div></section>' +
+      '<section class="fld"><label for="vname">Nom</label><input id="vname" type="text" data-draft="vname" value="' + esc(ui.vname) + '"></section>' +
+      '<section class="grid2"><div class="fld"><label for="vday">Jour</label><select id="vday" data-draft="vday">' + ['Aujourd’hui', 'Demain', 'Samedi 3 oct.'].map(function (x) { return '<option' + (x === ui.vday ? ' selected' : '') + '>' + x + '</option>'; }).join('') + '</select></div>' +
+      '<div class="fld"><label for="vtime">Vers</label><select id="vtime" data-draft="vtime">' + ['vers 17 h', 'vers 19 h', 'vers 20 h', 'toute la soirée'].map(function (x) { return '<option' + (x === ui.vtime ? ' selected' : '') + '>' + x.replace('vers ', '').replace('toute', 'Toute') + '</option>'; }).join('') + '</select></div></section>' +
+      '<section class="card row"><span class="stack"><span class="t">Laisser monter directement</span><span class="s">Sinon, l’accueil vous appelle à son arrivée</span></span>' + sw(ui.vup, 'toggleUi', 'Laisser monter directement').replace('data-act="toggleUi"', 'data-act="toggleUi" data-arg="vup"') + '</section>' +
+      '<button type="button" class="btn" data-act="sendVisitor">Prévenir l’accueil</button>';
+  }
+  var mineV = S.visitors.filter(function (v) { return v.appt === '908'; }).slice().reverse();
+  if (mineV.length) h += '<section class="sec"><h2 class="h2">Déjà annoncés</h2><div class="card list">' + mineV.map(function (v) {
+    return '<div class="row"><span class="stack"><span class="t">' + esc(v.name) + '</span><span class="s">' + esc(v.day) + ' · ' + esc(v.time) + '</span></span>' + (v.arrived ? pill('ok sm', 'Arrivé') : pill('outline sm', 'Prévu')) + '</div>';
+  }).join('') + '</div></section>';
+  return h + '</main>';
+};
+
+R['resident.ascenseur'] = function () {
+  var own = S.elevator.filter(function (e) { return e.appt === '908'; }).slice(-1)[0];
+  var h = subHdr('Services', 'resident.services', 'Ascenseur de service', 'Pour un déménagement ou une grosse livraison.') + '<main class="body">';
+  if (own && own.status !== 'no') {
+    h += '<section class="sec"><h2 class="h2 sm">Votre réservation</h2><div class="dark"><span class="t" style="font-size:17px">' + (own.status === 'ok' ? 'Réservation confirmée' : 'Demande envoyée') + '</span><p>Ven. 2 oct. · ' + ESLOTS[own.slot] + ' · ' + esc(own.reason) + (own.status === 'ok' ? '<br>Les protections seront installées dans l’ascenseur.' : ' · en attente de confirmation') + '</p></div></section>';
+  } else {
+    if (own && own.status === 'no') h += '<div class="soft bad">' + ic('info', 18) + 'Ce créneau n’a pas pu être accepté. Choisissez-en un autre.</div>';
+    h += '<section class="sec"><h2 class="h2 sm">Pour quoi ?</h2><div class="chips">' + REASONS.map(function (r) { return chip(ui.reason === r.id, 'pickReason', r.id, r.label); }).join('') + '</div></section>';
+    h += '<section class="sec"><h2 class="h2 sm">Vendredi 2 octobre</h2><div class="grid2" style="gap:8px">' + ESLOTS.map(function (lab, i) {
+      var taken = S.elevator.some(function (e) { return e.slot === i && e.status !== 'no' && e.appt !== '908'; });
+      var on = ui.eslot === i && !taken;
+      return '<button type="button" class="slot" aria-pressed="' + on + '"' + (taken ? ' disabled' : '') + ' data-act="pickSlot" data-arg="' + i + '"><span class="t">' + lab + '</span><span class="xs">' + (taken ? 'Déjà réservé' : on ? 'Sélectionné' : 'Libre') + '</span></button>';
+    }).join('') + '</div></section>';
+    h += '<div class="info">' + ic('info', 18) + 'La gestion confirme la réservation et fait installer les protections dans l’ascenseur.</div>';
+    h += '<button type="button" class="btn" style="margin-top:auto" data-act="sendElevator">Demander ce créneau</button>';
+  }
+  return h + '</main>';
+};
+
+/* ================= Écrans · Gestion ================= */
+function gRows(list) {
+  if (!list.length) return '<div class="card empty"><span class="t">Rien ici</span><span class="s">Aucune demande dans cette catégorie.</span></div>';
+  return '<div class="card list">' + list.map(function (r) {
+    return '<button type="button" class="row" style="padding:13px 16px" data-go="gestion.demande.' + r.id + '"><span class="appt">' + r.appt + '</span><span class="stack"><span class="t">' + esc(r.title) + '</span><span class="xs">' + gSub(r) + '</span></span>' + gPill(r) + '</button>';
+  }).join('') + '</div>';
+}
+var ORD = { nouvelle: 0, enroute: 1, surplace: 1, assignee: 2, terminee: 3 };
+function gSorted() {
+  return S.requests.filter(function (r) { return !r.old; }).sort(function (a, b) {
+    return ORD[a.status] - ORD[b.status] || (b.urgent ? 1 : 0) - (a.urgent ? 1 : 0) || b.created - a.created;
+  });
+}
+R['gestion.tableau'] = function () {
+  var list = gSorted();
+  var nNew = list.filter(function (r) { return r.status === 'nouvelle'; }).length;
+  var nCur = list.filter(function (r) { return r.status !== 'nouvelle' && r.status !== 'terminee'; }).length;
+  var nDone = 5 + list.filter(function (r) { return r.status === 'terminee'; }).length;
+  var lt = loungeOn(0)[0];
+  var pend = S.lounge.concat(S.elevator).filter(function (x) { return x.status === 'pending'; }).length;
+  var h = roleHdr('<span class="rbadge gold">Gestion</span>', 'Mercredi 30 septembre', 'Bonjour Karine') + '<main class="body" style="gap:22px">';
+  h += '<section class="stats" aria-label="Résumé"><button type="button" class="stat hot" data-act="gfilterGo" data-arg="new"><b>' + nNew + '</b><span>Nouvelles</span></button><button type="button" class="stat" data-act="gfilterGo" data-arg="cur"><b>' + nCur + '</b><span>En cours</span></button><button type="button" class="stat" data-act="gfilterGo" data-arg="done"><b>' + nDone + '</b><span>Terminées (7 j)</span></button></section>';
+  h += '<section class="sec"><div class="sec-head"><h2 class="h2">Demandes</h2><button type="button" class="link" data-go="gestion.demandes">Tout voir</button></div>' + gRows(list.filter(function (r) { return r.status !== 'terminee'; }).slice(0, 5)) + '</section>';
+  h += '<section class="sec"><h2 class="h2">Espaces — en direct</h2><div class="card list">' +
+    '<div class="row" style="padding:12px 16px"><span class="stack"><span class="t">Piscine</span><span class="s" style="font-weight:600;color:' + (S.spaces.pool ? 'var(--ok)' : 'var(--bad)') + '">' + (S.spaces.pool ? 'Ouverte — visible par tous' : 'Fermée — les résidents sont prévenus') + '</span></span>' + sw(S.spaces.pool, 'togglePool', 'Piscine ouverte', 'live') + '</div>' +
+    '<div class="row" style="padding:12px 16px"><span class="stack"><span class="t">Salle d’entraînement</span><span class="s" style="font-weight:600;color:' + (S.spaces.gym ? 'var(--ok)' : 'var(--bad)') + '">' + (S.spaces.gym ? 'Ouverte' : 'Fermée') + '</span></span>' + sw(S.spaces.gym, 'toggleGym', 'Salle d’entraînement ouverte', 'live') + '</div>' +
+    '<button type="button" class="row" style="padding:12px 16px" data-go="gestion.espaces"><span class="stack"><span class="t">Lounge</span><span class="s">' + (lt ? 'Ce soir ' + lt.range + ' · appt ' + lt.appt : 'Libre ce soir') + (pend ? ' · ' + pend + ' demande' + (pend > 1 ? 's' : '') + ' en attente' : '') + '</span></span><span style="color:var(--muted)">' + ic('chevR', 18) + '</span></button>' +
+    '</div></section>';
+  if (S.messages.length) {
+    h += '<section class="sec"><h2 class="h2">Messages</h2><div class="card list">' + S.messages.slice().reverse().map(function (m) {
+      return '<div class="row" style="align-items:flex-start"><span class="appt">' + esc(m.from === 'tech' ? 'Tech' : m.from) + '</span><span class="stack"><span class="t" style="font-weight:500;font-size:15px">' + esc(m.text) + '</span><span class="xs">' + (m.from === 'tech' ? 'Entretien Gabriel' : 'Appt ' + esc(m.from)) + ' · ' + m.time + '</span></span></div>';
+    }).join('') + '</div></section>';
+  }
+  return h + '</main>';
+};
+R['gestion.demandes'] = function () {
+  var f = ui.gfilter, list = gSorted();
+  var fl = { all: function () { return true; }, new: function (r) { return r.status === 'nouvelle'; }, cur: function (r) { return r.status !== 'nouvelle' && r.status !== 'terminee'; }, done: function (r) { return r.status === 'terminee'; } };
+  var h = plainHdr('Gestion', 'Toutes les demandes') + '<main class="body"><div class="chips">' + chip(f === 'all', 'gfilter', 'all', 'Toutes') + chip(f === 'new', 'gfilter', 'new', 'Nouvelles') + chip(f === 'cur', 'gfilter', 'cur', 'En cours') + chip(f === 'done', 'gfilter', 'done', 'Terminées') + '</div>';
+  h += gRows(list.filter(fl[f]));
+  if (f === 'done' || f === 'all') h += '<p class="xs">Les demandes plus anciennes restent dans l’historique de chaque appartement.</p>';
+  return h + '</main>';
+};
+R['gestion.demande'] = function () {
+  var r = reqById(nav.param);
+  if (!r) return plainHdr('Gestion', 'Demande introuvable');
+  var a = ui.assign[r.id] || (ui.assign[r.id] = { pro: 'entretien', slot: 0 });
+  var pre = '<div style="display:flex;align-items:center;gap:8px;margin-bottom:2px">' + (r.urgent ? pill('danger sm', 'Urgent') : '') + '<span class="lead" style="font-size:14px">Reçue ' + (r.created ? rel(r.created) : 'hier') + '</span></div>';
+  var h = subHdr('Demandes', 'gestion.demandes', esc(r.title), 'Appt ' + r.appt + ' · ' + esc(DIR[r.appt] || '') + ' · ' + floorOf(r.appt), pre) + '<main class="body">';
+  h += '<section class="card pad"><p class="quote">« ' + esc(r.desc) + ' »</p>' + photoBox(r) + accessLine(r) + '<div class="xs">Catégorie : ' + catOf(r.cat).label + '</div></section>';
+  if (r.status === 'nouvelle') {
+    var today = missionsOf('entretien').filter(function (x) { return x.status !== 'terminee' && x.slot && x.slot.day === 'today'; }).length;
+    h += '<section class="sec"><h2 class="h2">Assigner à</h2><div style="display:flex;flex-direction:column;gap:8px">' + Object.keys(PROS).map(function (k) {
+      var meta = k === 'entretien' ? today + ' mission' + (today > 1 ? 's' : '') + ' en cours aujourd’hui' : PROS[k].meta;
+      return '<button type="button" class="opt" aria-pressed="' + (a.pro === k) + '" data-act="pickPro" data-arg="' + r.id + ':' + k + '"><span class="radio"></span><span class="stack"><span class="t">' + PROS[k].name + '</span><span class="s">' + meta + '</span></span></button>';
+    }).join('') + '</div></section>';
+    h += '<section class="fld"><label for="slot-' + r.id + '" style="font-size:17px">Créneau proposé</label><select id="slot-' + r.id + '" data-draft="slot:' + r.id + '">' + SLOTS.map(function (s, i) { return '<option value="' + i + '"' + (i === a.slot ? ' selected' : '') + '>' + slotOpt(s) + '</option>'; }).join('') + '</select></section>';
+    h += '<button type="button" class="btn" style="margin-top:auto" data-act="assign" data-arg="' + r.id + '">Assigner et prévenir le résident</button>';
+  } else {
+    var labels = { assignee: 'Planifiée', enroute: 'Technicien en route', surplace: 'Technicien sur place', terminee: 'Intervention terminée' };
+    h += '<section class="dark" style="padding:20px"><div class="row" style="padding:0;gap:10px;color:#fff"><span class="gold">' + ic('check', 22, 2.2) + '</span><span class="t lg">Assignée à ' + PROS[r.pro].name + '</span></div>' +
+      '<p>' + labels[r.status] + ' · ' + slotText(r.slot) + (r.status === 'enroute' ? ' · arrivée vers ' + r.eta : '') + (r.techNote ? '<br>Note du technicien : « ' + esc(r.techNote) + ' »' : '') + '</p>' +
+      '<p>Le technicien voit la mission dans son app. Le résident du ' + r.appt + ' suit chaque étape. Vous aussi, d’ici — plus besoin d’appeler.</p>' +
+      (r.status === 'assignee' ? '<button type="button" class="btn sm on-dark" style="align-self:flex-start" data-act="unassign" data-arg="' + r.id + '">Changer</button>' : '') + '</section>';
+    h += '<section class="card" style="padding:16px"><div class="tsteps">' + techSteps(r) + '</div></section>';
+  }
+  return h + '</main>';
+};
+R['gestion.espaces'] = function () {
+  var h = plainHdr('Gestion', 'Espaces &amp; annonces') + '<main class="body" style="gap:22px">';
+  var reqs = S.lounge.map(function (l) { return { k: 'L', x: l }; }).concat(S.elevator.map(function (e) { return { k: 'E', x: e }; })).filter(function (o) { return o.x.status === 'pending' || o.x.decided; });
+  h += '<section class="sec"><h2 class="h2">Demandes de réservation</h2>';
+  if (!reqs.length) h += '<div class="card empty"><span class="t">Tout est traité</span><span class="s">Les nouvelles demandes de lounge et d’ascenseur arrivent ici.</span></div>';
+  h += reqs.map(function (o) {
+    var x = o.x;
+    var title = o.k === 'L' ? DAYS[x.day].long.replace(/^\w/, function (c) { return c.toUpperCase(); }) + ' · ' + x.range : 'Ascenseur · vendredi 2 octobre · ' + ESLOTS[x.slot];
+    var sub = 'Appt ' + x.appt + ' · ' + esc(o.k === 'L' ? x.note : x.reason);
+    var inner = x.status === 'pending'
+      ? '<div class="grid2"><button type="button" class="btn sm ghost" style="width:100%" data-act="decide" data-arg="' + o.k + ':' + x.id + ':no">Refuser</button><button type="button" class="btn sm" style="width:100%" data-act="decide" data-arg="' + o.k + ':' + x.id + ':ok">Accepter</button></div>'
+      : '<div class="soft plain" style="justify-content:space-between;min-height:48px;padding:0 14px"><span class="t" style="font-size:15px">' + (x.status === 'ok' ? 'Acceptée' : 'Refusée') + ' · le ' + x.appt + ' est prévenu</span><button type="button" class="link" data-act="decide" data-arg="' + o.k + ':' + x.id + ':pending">Annuler</button></div>';
+    return '<div class="card pad"><div class="stack"><span class="t" style="font-size:17px">' + title + '</span><span class="s" style="font-size:15px">' + sub + '</span></div>' + inner + '</div>';
+  }).join('') + '</section>';
+  var up = S.lounge.filter(function (l) { return l.status === 'ok'; }).sort(function (a, b) { return a.day - b.day; }).map(function (l) { return ['Lounge · ' + DAYS[l.day].short + ' · ' + l.range, 'Appt ' + l.appt]; })
+    .concat(S.elevator.filter(function (e) { return e.status === 'ok'; }).map(function (e) { return ['Ascenseur · ven. 2 oct. · ' + ESLOTS[e.slot], 'Appt ' + e.appt + ' · ' + e.reason.toLowerCase()]; }));
+  h += '<section class="sec"><h2 class="h2">Réservations à venir</h2><div class="card list">' + up.map(function (u) {
+    return '<div class="row" style="padding:13px 16px"><span class="stack"><span class="t">' + esc(u[0]) + '</span><span class="s">' + esc(u[1]) + '</span></span>' + pill('ok sm', 'Confirmée') + '</div>';
+  }).join('') + '</div><p class="xs">Les résidents voient « Lounge privatisé » et l’horaire — pas l’appartement.</p></section>';
+  h += '<section class="sec"><label for="annonce" class="h2">Nouvelle annonce</label>';
+  if (ui.annPosted) {
+    h += '<div class="okbox">' + ic('check', 18, 2.2) + 'Publiée · notification envoyée (' + AUD[ui.aud].toLowerCase() + ')</div><button type="button" class="btn ghost" data-act="newAnn">Écrire une autre annonce</button>';
+  } else {
+    h += '<textarea id="annonce" rows="3" data-draft="annText">' + esc(ui.annText) + '</textarea><div class="chips">' + Object.keys(AUD).map(function (k) { return chip(ui.aud === k, 'pickAud', k, AUD[k]); }).join('') + '</div>' +
+      (ui.aud === 'unit' ? '<div class="fld"><label for="annunit" style="font-size:15px">Appartement</label><input id="annunit" type="text" inputmode="numeric" data-draft="annUnit" value="' + esc(ui.annUnit) + '"></div>' : '') +
+      '<button type="button" class="btn md" data-act="postAnn">Publier l’annonce</button>';
+  }
+  h += '</section><section class="sec"><h2 class="h2">Déjà publiées</h2><div class="card list">' + S.announcements.slice(0, 4).map(function (a) {
+    return '<div style="padding:12px 16px;display:flex;flex-direction:column;gap:2px"><span class="t" style="font-size:15px">' + esc(a.title) + '</span><span class="xs">' + esc(a.when) + ' · ' + esc(a.aud === 'unit' ? 'appt ' + a.unit : AUD[a.aud]) + '</span></div>';
+  }).join('') + '</div></section>';
+  return h + '</main>';
+};
+
+/* ================= Écrans · Technicien ================= */
+function techSteps(r) {
+  var step = { assignee: 0, enroute: 1, surplace: 2, terminee: 3 }[r.status];
+  return ['Assignée', 'En route', 'Sur place', 'Terminée'].map(function (l, i) {
+    var st = i < step || (i === 3 && step === 3) ? 'done' : i === step ? 'cur' : '';
+    return '<div><span class="b ' + st + '"></span><span class="l ' + st + '">' + l + '</span></div>';
+  }).join('');
+}
+function missionCard(r, hot) {
+  var st = { assignee: pill('outline sm', 'À venir'), enroute: pill('gold sm', 'En route'), surplace: pill('gold sm', 'Sur place'), terminee: pill('ok sm', 'Terminée') }[r.status];
+  return '<button type="button" class="mission' + (hot ? ' hot' : '') + '" data-go="tech.mission.' + r.id + '"><div class="between center"><span class="when">' + (r.slot.day === 'tbd' ? 'Créneau à proposer' : r.slot.time) + '</span>' + st + '</div><div style="display:flex;align-items:baseline;gap:12px"><span class="big">' + r.appt + '</span><span class="ttl">' + esc(r.title) + '</span></div><div class="meta">' + ic(r.access ? 'lock' : 'person', 16) + (r.access ? 'Accès autorisé en l’absence du résident' : 'Résident présent requis') + '</div></button>';
+}
+R['tech.missions'] = function () {
+  var ms = missionsOf('entretien');
+  var today = ms.filter(function (r) { return r.slot.day === 'today' && r.status !== 'terminee'; }).sort(function (a, b) { return startMin(a.slot.time) - startMin(b.slot.time); });
+  var tom = ms.filter(function (r) { return r.slot.day === 'tomorrow' && r.status !== 'terminee'; });
+  var tbd = ms.filter(function (r) { return r.slot.day === 'tbd' && r.status !== 'terminee'; });
+  var done = ms.filter(function (r) { return r.status === 'terminee'; });
+  var cur = currentMission();
+  var h = roleHdr('<span class="rbadge">Technicien</span>', 'Entretien Gabriel', 'Mes missions') + '<main class="body" style="gap:22px">';
+  h += '<div class="info">' + ic('eye', 18) + 'Vous voyez uniquement les missions qui vous sont assignées.</div>';
+  h += '<section class="sec"><h2 class="h2">Aujourd’hui · mercredi 30 sept.</h2>' + (today.length ? today.map(function (r) { return missionCard(r, cur && r.id === cur.id); }).join('') : '<div class="card empty"><span class="t">Journée terminée</span><span class="s">Aucune autre mission prévue aujourd’hui.</span></div>') + '</section>';
+  if (tbd.length) h += '<section class="sec"><h2 class="h2">À planifier</h2>' + tbd.map(function (r) { return missionCard(r); }).join('') + '</section>';
+  h += '<section class="sec"><h2 class="h2">Jeudi 1er oct.</h2>' + tom.map(function (r) { return missionCard(r); }).join('') +
+    '<div class="mission"><span class="when">8 h – 12 h</span><div style="display:flex;align-items:baseline;gap:12px"><span class="big" style="font-size:20px">Piscine</span><span class="ttl" style="font-size:17px">Entretien du filtre</span></div><span class="s">Espace commun · la piscine sera affichée « Fermée » pendant l’intervention</span></div></section>';
+  if (done.length) h += '<section class="sec"><h2 class="h2">Terminées aujourd’hui</h2><div class="card list">' + done.map(function (r) {
+    return '<button type="button" class="row" data-go="tech.mission.' + r.id + '"><span class="appt">' + r.appt + '</span><span class="stack"><span class="t">' + esc(r.title) + '</span><span class="xs">Terminée à ' + r.log.terminee + '</span></span>' + pill('ok sm', 'Terminée') + '</button>';
+  }).join('') + '</div></section>';
+  return h + '</main>';
+};
+R['tech.mission'] = function () {
+  var r = reqById(nav.param);
+  if (!r || r.pro !== 'entretien') return plainHdr('Technicien', 'Mission indisponible') + '<main class="body"><div class="card empty"><span class="t">Cette mission ne vous est pas assignée</span><span class="s">Vous voyez uniquement vos propres missions.</span><button type="button" class="btn sm" data-go="tech.missions">Mes missions</button></div></main>';
+  var pre = '<div style="display:flex;align-items:baseline;gap:12px"><span style="font-family:var(--display);font-size:34px;font-weight:800;color:var(--gold)">' + r.appt + '</span><h1 style="font-size:24px">' + esc(r.title) + '</h1></div>';
+  var h = '<header class="hdr sub"><button type="button" class="back" data-go="tech.missions">' + ic('chevL', 20, 2) + 'Mes missions</button><div class="inner" style="gap:6px">' + pre + '<p class="lead">' + floorOf(r.appt) + ' · ' + slotText(r.slot) + '</p></div></header><main class="body">';
+  h += '<section class="tsteps" aria-label="Statut">' + techSteps(r) + '</section>';
+  h += '<section class="card pad"><h2 class="h2 sm">Demande du résident</h2><p class="quote">« ' + esc(r.desc) + ' »</p>' + photoBox(r, 'Photo du résident') + accessLine(r, true) + '</section>';
+  if (r.status !== 'terminee') {
+    var cta = { assignee: 'Je pars', enroute: 'Je suis sur place', surplace: 'Marquer comme terminée' }[r.status];
+    h += '<section class="fld"><label for="note-' + r.id + '">Note pour le résident (optionnel)</label><textarea id="note-' + r.id + '" rows="2" data-draft="note:' + r.id + '" placeholder="Ex. : cordon remplacé, store testé.">' + esc(ui.notes[r.id] || '') + '</textarea></section>' +
+      '<div style="display:flex;flex-direction:column;gap:10px;margin-top:auto"><button type="button" class="btn" style="min-height:58px;font-size:18px" data-act="advance" data-arg="' + r.id + '">' + cta + '</button><button type="button" class="btn ghost" data-act="openMsg" data-arg="tech">Signaler un problème à la gestion</button></div>';
+  } else {
+    var next = currentMission();
+    h += '<section class="dark" style="padding:20px"><div class="row" style="padding:0;gap:10px;color:#fff"><span class="gold">' + ic('check', 22, 2.2) + '</span><span class="t lg">Intervention terminée</span></div><p>Le résident du ' + r.appt + ' et la gestion sont notifiés.' + (next ? ' Prochaine mission : ' + next.appt + ' à ' + next.slot.time.split(' – ')[0] + '.' : ' Plus de mission aujourd’hui.') + '</p><button type="button" class="btn sm on-dark" style="align-self:flex-start" data-go="' + (next ? 'tech.mission.' + next.id : 'tech.missions') + '">' + (next ? 'Mission suivante' : 'Mes missions') + '</button></section>';
+  }
+  return h + '</main>';
+};
+R['tech.encours'] = function () {
+  var c = currentMission();
+  if (c) { nav.screen = 'mission'; nav.param = c.id; return R['tech.mission'](); }
+  return roleHdr('<span class="rbadge">Technicien</span>', 'Entretien Gabriel', 'En cours') + '<main class="body"><div class="card empty">' + ic('check', 26, 2) + '<span class="t">Aucune mission en cours</span><span class="s">Quand Karine vous assigne une demande, elle apparaît ici.</span><button type="button" class="btn sm" data-go="tech.missions">Mes missions</button></div></main>';
+};
+
+/* ================= Écrans · Accueil (réception) ================= */
+function dirHint(a) {
+  if (!DIR[a]) return a ? 'Appartement inconnu' : 'Tapez le numéro d’appartement';
+  return DIR[a] + (a === '908' && S.prefs.co ? ' · colocataire autorisé' : '');
+}
+R['accueil.colis'] = function () {
+  var waiting = S.parcels.filter(function (p) { return !p.given; }).slice().reverse();
+  var h = roleHdr('<span class="rbadge">Accueil</span>', '', 'Colis') + '<main class="body" style="gap:22px">';
+  h += '<section class="card pad" style="gap:14px"><h2 class="h2">Nouveau colis</h2>';
+  if (ui.rsaved) {
+    h += '<div class="okbox" style="background:var(--ink);color:#fff">' + ic('check', 18, 2.2) + esc(ui.rsaved) + '</div><button type="button" class="btn ghost md" data-act="newParcel">Enregistrer un autre colis</button>';
+  } else {
+    h += '<div class="fld" style="gap:6px"><label for="rappt" style="font-size:15px">Appartement</label><input id="rappt" class="big" type="text" inputmode="numeric" data-draft="rappt" value="' + esc(ui.rappt) + '"><span class="s" id="rappt-hint">' + esc(dirHint(ui.rappt)) + '</span></div>' +
+      '<div class="chips">' + CARRIERS.map(function (c) { return chip(ui.carrier === c, 'pickCarrier', c, c); }).join('') + '</div>' +
+      '<button type="button" class="btn md" data-act="saveParcel">Enregistrer et prévenir le résident</button>';
+  }
+  h += '</section><section class="sec"><h2 class="h2">En attente · ' + waiting.length + '</h2><div class="card list">' + waiting.map(function (p) {
+    return '<div class="row" style="padding:12px 16px"><span class="appt" style="width:48px;font-size:17px">' + p.appt + '</span><span class="stack"><span class="t">' + esc(p.carrier) + '</span><span class="s">' + esc(p.when) + ' · étagère ' + p.shelf + '</span></span><button type="button" class="btn sm ghost" data-act="giveParcel" data-arg="' + p.id + '">Remis</button></div>';
+  }).join('') + '</div><p class="xs">Remettez le colis au résident ou à son colocataire autorisé. « Remis » le retire de sa liste.</p></section>';
+  return h + '</main>';
+};
+R['accueil.visiteurs'] = function () {
+  var today = S.visitors.filter(function (v) { return v.day === 'Aujourd’hui'; });
+  var later = S.visitors.filter(function (v) { return v.day !== 'Aujourd’hui'; });
+  var h = roleHdr('<span class="rbadge">Accueil</span>', 'Mercredi 30 septembre', 'Attendus aujourd’hui') + '<main class="body" style="gap:22px">';
+  h += '<section class="sec"><h2 class="h2">Visiteurs</h2>' + today.map(function (v) {
+    return '<div class="card pad" style="padding:14px 16px;gap:10px"><div class="row" style="padding:0"><span class="appt" style="font-size:18px">' + v.appt + '</span><span class="stack"><span class="t">' + esc(v.name) + '</span><span class="s">' + (v.kind === 'service' ? 'Service' : 'Visiteur') + ' · ' + esc(v.time) + '</span></span></div>' +
+      (v.up ? pill('ok', 'Peut monter directement') : pill('warn', 'Appeler le résident avant de laisser monter')) +
+      (v.arrived ? '<div class="okbox" style="min-height:46px">' + ic('check', 18, 2.2) + 'Arrivé · résident prévenu</div>' : '<button type="button" class="btn sm" style="width:100%;min-height:46px" data-act="arrive" data-arg="' + v.id + '">' + (v.up ? 'Marquer arrivé' : 'Arrivé · appeler le ' + v.appt) + '</button>') + '</div>';
+  }).join('') + '</section>';
+  var ms = S.requests.filter(function (r) { return r.pro && !r.old && r.slot && r.slot.day === 'today' && r.status !== 'terminee' && r.status !== 'nouvelle'; });
+  var byPro = {};
+  ms.forEach(function (r) { (byPro[r.pro] = byPro[r.pro] || []).push(r); });
+  h += '<section class="sec"><h2 class="h2">Techniciens attendus</h2><div class="card list">' + (Object.keys(byPro).length ? Object.keys(byPro).map(function (k) {
+    var l = byPro[k].sort(function (a, b) { return startMin(a.slot.time) - startMin(b.slot.time); });
+    var from = l[0].slot.time.split(' – ')[0], to = l[l.length - 1].slot.time.split(' – ')[1];
+    return '<div class="row">' + ic('wrench', 22, 1.7) + '<span class="stack"><span class="t">' + PROS[k].name + '</span><span class="s">' + from + ' – ' + to + ' · ' + l.length + ' intervention' + (l.length > 1 ? 's' : '') + '</span></span></div>';
+  }).join('') : '<div class="row"><span class="s">Aucun technicien attendu pour le reste de la journée.</span></div>') + '</div><p class="xs">L’accueil voit qui est attendu, pas le motif des demandes d’entretien.</p></section>';
+  if (later.length) h += '<section class="sec"><h2 class="h2">Prochains jours</h2><div class="card list">' + later.map(function (v) {
+    return '<div class="row"><span class="appt">' + v.appt + '</span><span class="stack"><span class="t">' + esc(v.name) + '</span><span class="s">' + esc(v.day) + ' · ' + esc(v.time) + '</span></span></div>';
+  }).join('') + '</div></section>';
+  return h + '</main>';
+};
+
+/* ================= Feuilles (notifications, message, document) ================= */
+function sheetHtml() {
+  var s = ui.sheet; if (!s) return '';
+  var body = '';
+  if (s.type === 'notifs') {
+    body = '<div class="sheet-h"><h2>Notifications</h2><button type="button" class="xbtn" data-act="closeSheet" aria-label="Fermer">' + ic('x', 18, 2) + '</button></div><div class="card list">' + S.notifs.slice(0, 12).map(function (n) {
+      return '<div class="notif ' + (s.unread && s.unread.indexOf(n) > -1 ? 'new' : '') + '"><span class="nd"></span><span class="stack"><span class="t" style="font-size:15px">' + esc(n.title) + '</span><span class="s">' + esc(n.body) + '</span></span><span class="xs">' + n.time + '</span></div>';
+    }).join('') + '</div>';
+  } else if (s.type === 'msg') {
+    var tech = s.from === 'tech';
+    body = '<div class="sheet-h"><h2>' + (tech ? 'Signaler un problème' : 'Écrire à Karine') + '</h2><button type="button" class="xbtn" data-act="closeSheet" aria-label="Fermer">' + ic('x', 18, 2) + '</button></div><div class="fld"><label for="msg">' + (tech ? 'Votre message à la gestion' : 'Votre message') + '</label><textarea id="msg" rows="4" data-draft="msg" placeholder="' + (tech ? 'Ex. : pièce à commander, je repasse demain.' : 'Ex. : question sur le renouvellement du bail.') + '">' + esc(ui.msg) + '</textarea></div><button type="button" class="btn" data-act="sendMsg">Envoyer</button>';
+  } else if (s.type === 'doc') {
+    body = '<div class="sheet-h"><h2>' + esc(s.name) + '</h2><button type="button" class="xbtn" data-act="closeSheet" aria-label="Fermer">' + ic('x', 18, 2) + '</button></div><div class="card pad"><div class="row" style="padding:0">' + ic('doc', 26, 1.6) + '<span class="stack"><span class="t">Document PDF</span><span class="s">Mis à jour par la gestion</span></span></div><p class="s">Dans l’app, le document s’ouvre ici. Pour la démo, il n’y a pas de fichier réel.</p></div>';
+  }
+  return '<div class="sheet-back" data-act="closeSheetBg"><div class="sheet" role="dialog" aria-modal="true">' + body + '</div></div>';
+}
+
+/* ================= Actions ================= */
+var toastMsg = null;
+function toast(t) { toastMsg = t; }
+var A = {
+  pickCat: function (a) { ui.cat = a; },
+  toggleUi: function (a) { ui[a] = !ui[a]; },
+  removePhoto: function () { ui.photo = null; },
+  sendRequest: function () {
+    var c = catOf(ui.cat), id = '0' + (S.nextId++);
+    S.requests.push({ id: id, appt: '908', title: c.title, cat: c.id, desc: ui.desc.trim() || c.label, photo: ui.photo, hasPhoto: !!ui.photo, access: ui.access, urgent: ui.urgent, status: 'nouvelle', created: now(), log: { envoyee: fmt(now()) }, isNew: true });
+    ui.sentId = id; ping('gestion'); toast('Demande envoyée à Karine');
+  },
+  resetSignal: function () { var k = freshUi(); ui.sentId = null; ui.photo = null; ui.desc = ''; ui.cat = k.cat; ui.urgent = false; ui.access = true; },
+  openNotifs: function () { var un = S.notifs.filter(function (n) { return !n.read; }); ui.sheet = { type: 'notifs', unread: un }; S.notifs.forEach(function (n) { n.read = true; }); },
+  closeSheet: function () { ui.sheet = null; },
+  closeSheetBg: function (a, el, ev) { if (ev.target === el) ui.sheet = null; else return false; },
+  openMsg: function (a) { ui.sheet = { type: 'msg', from: a || '908' }; ui.msg = ''; },
+  sendMsg: function () {
+    if (!ui.msg.trim()) { toast('Écrivez un message avant d’envoyer'); return; }
+    S.messages.push({ from: ui.sheet.from, text: ui.msg.trim(), time: fmt(now()) }); ui.sheet = null; ping('gestion'); toast('Message envoyé à Karine');
+  },
+  openDoc: function (a) { ui.sheet = { type: 'doc', name: a }; },
+  call: function (a) { toast('Dans l’app, ce bouton appelle ' + a); },
+  toggleAccess: function (id) { var r = reqById(id); r.access = !r.access; ping('gestion'); if (r.pro === 'entretien') ping('tech'); toast(r.access ? 'Accès en votre absence autorisé' : 'Votre présence sera requise'); },
+  pickDay: function (a) { ui.loungeDay = +a; },
+  requestLounge: function () { S.lounge.push({ id: 'L' + Date.now(), day: ui.loungeDay, range: ui.loungeRange, appt: '908', note: 'Demande depuis l’app', status: 'pending' }); ping('gestion'); toast('Demande envoyée à la gestion'); },
+  togglePref: function (a) { S.prefs[a] = !S.prefs[a]; },
+  pickKind: function (a) { ui.vkind = a; if (a === 'service' && ui.vname === 'Marc-Antoine Gagnon') ui.vname = 'Service de ménage'; },
+  sendVisitor: function () {
+    S.visitors.push({ id: 'v' + Date.now(), appt: '908', name: ui.vname.trim() || (ui.vkind === 'service' ? 'Service' : 'Visiteur'), kind: ui.vkind, day: ui.vday, time: ui.vtime, up: ui.vup, arrived: false });
+    ui.vsent = true; ping('accueil'); toast('L’accueil est prévenu');
+  },
+  newVisitor: function () { ui.vsent = false; ui.vname = ''; },
+  pickReason: function (a) { ui.reason = a; },
+  pickSlot: function (a) { ui.eslot = +a; },
+  sendElevator: function () { S.elevator.push({ id: 'E' + Date.now(), slot: ui.eslot, appt: '908', reason: ui.reason, status: 'pending' }); ping('gestion'); toast('Demande envoyée à la gestion'); },
+  togglePool: function () { S.spaces.pool = !S.spaces.pool; notifyRes(S.spaces.pool ? 'La piscine est rouverte' : 'Piscine fermée', S.spaces.pool ? 'Ouverte de 7 h à minuit' : 'Fermée temporairement par la gestion'); ping('accueil'); toast(S.spaces.pool ? 'Piscine ouverte · résidents prévenus' : 'Piscine fermée · résidents prévenus'); },
+  toggleGym: function () { S.spaces.gym = !S.spaces.gym; notifyRes(S.spaces.gym ? 'Salle d’entraînement rouverte' : 'Salle d’entraînement fermée', S.spaces.gym ? 'Ouverte de 7 h à 22 h' : 'Fermée temporairement par la gestion'); toast(S.spaces.gym ? 'Salle ouverte' : 'Salle fermée · résidents prévenus'); },
+  gfilter: function (a) { ui.gfilter = a; },
+  gfilterGo: function (a) { ui.gfilter = a; go('gestion.demandes'); return false; },
+  pickPro: function (a) { var p = a.split(':'); ui.assign[p[0]].pro = p[1]; },
+  assign: function (id) {
+    var r = reqById(id), a = ui.assign[id];
+    r.pro = a.pro; r.slot = SLOTS[a.slot]; r.status = 'assignee'; r.log.prise = fmt(now());
+    if (r.appt === '908') notifyRes('Technicien assigné', r.title + ' · ' + PROS[r.pro].name + ' · ' + slotText(r.slot));
+    if (r.pro === 'entretien') ping('tech');
+    ping('accueil'); toast('Assignée · le ' + r.appt + ' est prévenu');
+  },
+  unassign: function (id) { var r = reqById(id); r.status = 'nouvelle'; delete r.pro; delete r.slot; delete r.log.prise; },
+  decide: function (a) {
+    var p = a.split(':'), list = p[0] === 'L' ? S.lounge : S.elevator;
+    var x = list.filter(function (i) { return i.id === p[1]; })[0];
+    x.status = p[2]; x.decided = p[2] !== 'pending';
+    if (x.appt === '908' && x.decided) notifyRes(p[0] === 'L' ? 'Lounge : ' + (x.status === 'ok' ? 'réservation confirmée' : 'demande refusée') : 'Ascenseur : ' + (x.status === 'ok' ? 'réservation confirmée' : 'demande refusée'), p[0] === 'L' ? DAYS[x.day].short + ' · ' + x.range : 'Ven. 2 oct. · ' + ESLOTS[x.slot]);
+    if (x.decided) toast((x.status === 'ok' ? 'Acceptée' : 'Refusée') + ' · le ' + x.appt + ' est prévenu');
+  },
+  pickAud: function (a) { ui.aud = a; },
+  postAnn: function () {
+    if (!ui.annText.trim()) { toast('Écrivez le texte de l’annonce'); return; }
+    S.announcements.unshift({ id: 'a' + Date.now(), when: 'à l’instant', title: ui.annText.trim(), body: ui.aud === 'unit' ? 'Message pour l’appartement ' + ui.annUnit : AUD[ui.aud], aud: ui.aud, unit: ui.annUnit, isNew: true });
+    ui.annPosted = true;
+    if (ui.aud !== 'unit' || ui.annUnit === '908') notifyRes('Nouvelle annonce', ui.annText.trim());
+    ping('accueil'); toast('Annonce publiée');
+  },
+  newAnn: function () { ui.annPosted = false; ui.annText = ''; },
+  advance: function (id) {
+    var r = reqById(id), t = fmt(now());
+    if (r.status === 'assignee') {
+      r.status = 'enroute'; r.log.enroute = t; r.eta = fmt(now() + 20);
+      if (r.slot.day !== 'today') r.slot = { day: 'today', time: t + ' – ' + fmt(now() + 80) };
+      if (r.appt === '908') notifyRes('Le technicien est en route', r.title + ' · arrivée vers ' + r.eta);
+      toast('Le résident sait que vous arrivez');
+    } else if (r.status === 'enroute') {
+      r.status = 'surplace'; r.log.surplace = t;
+      if (r.appt === '908') notifyRes('Le technicien est arrivé', r.title);
+      toast('Statut « sur place » partagé');
+    } else if (r.status === 'surplace') {
+      r.status = 'terminee'; r.log.terminee = t; r.techNote = (ui.notes[id] || '').trim();
+      if (r.appt === '908') notifyRes('Intervention terminée', r.title + (r.techNote ? ' · « ' + r.techNote + ' »' : ''));
+      toast('Terminée · résident et gestion notifiés');
+    }
+    ping('gestion');
+  },
+  pickCarrier: function (a) { ui.carrier = a; },
+  saveParcel: function () {
+    var a = (ui.rappt || '').trim();
+    if (!DIR[a]) { toast('Appartement inconnu : vérifiez le numéro'); return; }
+    var shelves = 'ABCD', shelf = shelves[S.parcels.length % 4];
+    S.parcels.push({ id: 'p' + Date.now(), appt: a, carrier: ui.carrier, size: 'Colis', shelf: shelf, when: 'Aujourd’hui ' + fmt(now()), time: fmt(now()), given: false, isNew: true });
+    var ch = a === '908' ? [S.prefs.app ? 'notification' : '', S.prefs.sms ? 'SMS' : ''].filter(Boolean).join(' + ') : 'notification + SMS';
+    if (a === '908' && S.prefs.app) notifyRes('Colis arrivé à l’accueil', ui.carrier + ' · étagère ' + shelf); else if (a === '908') ping('resident');
+    ui.rsaved = a + ' prévenu · ' + (ch || 'aucune alerte (préférences du résident)');
+    toast('Colis enregistré');
+  },
+  newParcel: function () { ui.rsaved = null; ui.rappt = ''; },
+  giveParcel: function (id) {
+    var p = S.parcels.filter(function (x) { return x.id === id; })[0];
+    p.given = true; p.givenLabel = 'Récupéré aujourd’hui à ' + fmt(now());
+    if (p.appt === '908') ping('resident');
+    toast('Colis remis au ' + p.appt);
+  },
+  arrive: function (id) {
+    var v = S.visitors.filter(function (x) { return x.id === id; })[0]; v.arrived = true;
+    if (v.appt === '908') notifyRes(v.name + ' est arrivé', v.up ? 'Il monte directement' : 'L’accueil vous appelle');
+    toast('Le résident du ' + v.appt + ' est prévenu');
+  },
+  reset: function (a, el) {
+    if (!ui.resetArm) { ui.resetArm = true; setTimeout(function () { if (ui.resetArm) { ui.resetArm = false; render(); } }, 3500); return; }
+    S = seed(); ui = freshUi(); save(); toast('Démo réinitialisée');
+  }
+};
+
+/* ================= Navigation & rendu ================= */
+var lastKey = '';
+function go(t) {
+  ui.sheet = null;
+  if (t === 'overview') { nav.view = 'overview'; }
+  else {
+    var p = t.split('.');
+    nav.view = 'role'; nav.role = p[0]; nav.screen = p[1] || ROLES[p[0]].home; nav.param = p[2] || '';
+    delete S.unseen[nav.role];
+    if (nav.role === 'resident' && nav.screen === 'signaler' && ui.sentId && p[2] !== 'keep') { /* garde l’écran de confirmation */ }
+  }
+  try { history.replaceState(null, '', '#' + (nav.view === 'overview' ? 'apercu' : nav.role + '.' + nav.screen + (nav.param ? '.' + nav.param : ''))); } catch (e) { }
+  render();
+}
+
+var STEPS = [
+  { t: 'Le résident signale un souci', s: 'Résident · Signaler', go: 'resident.signaler', done: function () { return S.requests.some(function (r) { return r.isNew; }); } },
+  { t: 'Karine l’assigne à un technicien', s: 'Gestion · Tableau', go: 'gestion.tableau', done: function () { return S.requests.some(function (r) { return r.isNew && r.status !== 'nouvelle'; }); } },
+  { t: 'Le technicien intervient', s: 'Technicien · Mes missions', go: 'tech.missions', done: function () { return S.requests.some(function (r) { return r.isNew && r.status === 'terminee'; }); } },
+  { t: 'Le résident suit tout en direct', s: 'Résident · Demandes', go: 'resident.suivi', done: function () { return false; } },
+  { t: 'L’accueil enregistre un colis', s: 'Accueil · Colis', go: 'accueil.colis', done: function () { return S.parcels.some(function (p) { return p.isNew; }); } },
+  { t: 'Karine ferme la piscine ou publie une annonce', s: 'Gestion · Tableau', go: 'gestion.tableau', done: function () { return !S.spaces.pool || S.announcements.some(function (a) { return a.isNew; }); } }
+];
+
+function roleButtons(inPanel) {
+  return Object.keys(ROLES).map(function (k) {
+    var r = ROLES[k], cur = inPanel && nav.role === k;
+    return '<button type="button" class="role-link" aria-current="' + (cur ? 'true' : 'false') + '" data-go="' + k + '.' + r.home + '"><span class="ic-gold">' + ic(r.icon, 22, 1.7) + '</span><span class="stack"><span class="t">' + r.label + '</span><span class="s">' + r.sub + '</span></span>' + (S.unseen[k] && !cur ? '<span class="ping" aria-label="Nouveautés"></span>' : '') + '<span class="chev">' + ic('chevR', 18) + '</span></button>';
+  }).join('');
+}
+function resetBtn(cls) { return '<button type="button" class="' + cls + (ui.resetArm ? ' warn' : '') + '" data-act="reset">' + ic('reset', 18) + (ui.resetArm ? 'Cliquez encore pour tout remettre à zéro' : 'Réinitialiser la démo') + '</button>'; }
+
+function renderOverview() {
+  var rows = [
+    ['Demandes d’entretien', 'Les siennes', 'Toutes', '—', 'Celles qui lui sont assignées'],
+    ['Numéros d’appartement', 'Le sien', 'Tous', 'Pour colis et visiteurs', 'Ceux de ses missions'],
+    ['Coordonnées des résidents', '—', 'Oui', 'Nom seulement', '— (passe par l’app)'],
+    ['Colis', 'Les siens', '—', 'Enregistrer, remettre', '—'],
+    ['Visiteurs attendus', 'Annoncer les siens', '—', 'Liste du jour', '—'],
+    ['Statut piscine, lounge…', 'En temps réel', 'Voir et modifier', 'Voir', '—'],
+    ['Réservations lounge / ascenseur', 'Créneaux pris, sans nom', 'Qui et quand', '—', '—'],
+    ['Annonces', 'Lire', 'Publier', 'Lire', '—']
+  ];
+  document.getElementById('root').innerHTML =
+    '<div class="ov"><section class="ov-left"><img src="logo-gabriel.jpg" alt="Logo Gabriel, appartements de luxe"><div style="display:flex;flex-direction:column;gap:12px"><h1>Tout l’immeuble, dans une seule app.</h1><p>Demandes d’entretien, espaces communs et annonces — au même endroit, avec le suivi en temps réel pour chacun.</p></div>' +
+    '<div class="role-links"><div class="label-gold">Ouvrir une vue</div>' + roleButtons(false) + '</div></section>' +
+    '<section class="ov-right"><div style="display:flex;flex-direction:column;gap:8px"><div class="label-gold">Confidentialité</div><h2>Qui voit quoi</h2><p class="lead">Chaque rôle a sa propre vue. Un technicien au 907 n’apparaît jamais chez le 908, l’accueil ne voit pas le motif des demandes d’entretien, et seule la gestion sait qui a réservé le lounge.</p></div>' +
+    '<div class="tbl-wrap"><table><thead><tr><th scope="col">Information</th><th scope="col">Résident</th><th scope="col">Gestion</th><th scope="col">Accueil</th><th scope="col">Technicien</th></tr></thead><tbody>' +
+    rows.map(function (r) { return '<tr><th scope="row">' + r[0] + '</th>' + r.slice(1).map(function (c) { return '<td' + (c.charAt(0) === '—' ? ' class="none"' : '') + '>' + c + '</td>'; }).join('') + '</tr>'; }).join('') + '</tbody></table></div>' +
+    '<div class="howto">' + ic('info', 22, 1.8) + '<p><strong>Démo interactive.</strong> Les quatre vues partagent les mêmes données : une demande envoyée par le résident arrive chez Karine, puis chez le technicien, et le résident voit chaque étape. Un colis enregistré à l’accueil apparaît aussitôt chez le résident.</p></div>' +
+    '<div class="ov-actions"><button type="button" class="btn md" style="width:auto" data-go="resident.accueil">Commencer par le résident</button>' + resetBtn('btn ghost md').replace('class="btn ghost md', 'style="width:auto" class="btn ghost md') + '</div></section></div>';
+}
+
+function tabsHtml() {
+  var role = ROLES[nav.role];
+  var active = TABOF[nav.screen] || nav.screen;
+  if (nav.role === 'tech' && nav.screen === 'mission') { var c = currentMission(); active = c && c.id === nav.param ? 'encours' : 'missions'; }
+  return '<nav class="tabs" aria-label="Navigation principale">' + role.tabs.map(function (t) {
+    var cur = active === t[0];
+    if (t[3]) return '<button type="button" class="tab fabtab" data-go="' + nav.role + '.' + t[0] + '"' + (cur ? ' aria-current="page"' : '') + ' aria-label="Signaler un souci"><span class="fab">' + ic(t[2], 22, 2.2) + '</span>' + t[1] + '</button>';
+    return '<button type="button" class="tab" data-go="' + nav.role + '.' + t[0] + '"' + (cur ? ' aria-current="page"' : '') + '>' + ic(t[2], 22, 1.8) + t[1] + '</button>';
+  }).join('') + '</nav>';
+}
+var SCREEN_NAMES = { accueil: 'Accueil', signaler: 'Signaler un souci', suivi: 'Suivi de la demande', espaces: 'Espaces communs', services: 'Services & documents', colis: 'Colis', visiteurs: 'Visiteurs', ascenseur: 'Ascenseur de service', tableau: 'Tableau de bord', demandes: 'Demandes', demande: 'Assigner une demande', missions: 'Mes missions', mission: 'Intervention', encours: 'En cours' };
+
+function renderRole() {
+  var root = document.getElementById('root');
+  var key = nav.role + '.' + nav.screen + '.' + nav.param;
+  var prevScroll = 0, sc = root.querySelector('.scroll');
+  if (sc && key === lastKey) prevScroll = sc.scrollTop;
+  var fn = R[nav.role + '.' + nav.screen] || R[nav.role + '.' + ROLES[nav.role].home];
+  var screen = fn();
+  key = nav.role + '.' + nav.screen + '.' + nav.param;
+  var role = ROLES[nav.role];
+  var steps = STEPS.map(function (s, i) {
+    var d = s.done();
+    return '<li><button type="button" class="step' + (d ? ' done' : '') + '" data-go="' + s.go + '"><span class="n">' + (d ? ic('check', 14, 3) : i + 1) + '</span><span class="stack"><span class="t">' + s.t + '</span><span class="s">' + s.s + '</span></span></button></li>';
+  }).join('');
+  root.innerHTML =
+    '<div class="split"><aside class="panel"><div class="panel-top"><img src="logo-gabriel.jpg" alt="Logo Gabriel"><div class="stack"><span class="t">Le Gabriel</span><span class="s">Démo interactive de l’app</span></div></div>' +
+    '<div class="panel-sec"><div class="label-gold">Voir l’app comme…</div>' + roleButtons(true) + '</div>' +
+    '<div class="panel-sec"><div class="label-gold">Ce que voit ce rôle</div><ul class="sees">' + role.sees.map(function (s) { return '<li>' + ic('shield', 16, 1.8) + '<span>' + s + '</span></li>'; }).join('') + '</ul></div>' +
+    '<div class="panel-sec"><div class="label-gold">Scénario à montrer</div><ol class="steps">' + steps + '</ol></div>' +
+    '<div class="panel-foot"><button type="button" class="pbtn" data-go="overview">' + ic('grid', 18) + 'Vue d’ensemble · qui voit quoi</button>' + resetBtn('pbtn') + '</div></aside>' +
+    '<div class="stage"><div class="mbar"><span>Démo · ' + role.label + '</span><button type="button" data-go="overview">Changer de rôle</button></div>' +
+    '<div class="stage-cap">' + role.label + ' · ' + (SCREEN_NAMES[nav.screen] || '') + '</div>' +
+    '<div class="phone"><div class="app" id="app"><div class="scroll">' + screen + '</div>' + tabsHtml() + sheetHtml() + '</div></div></div></div>';
+  var nsc = root.querySelector('.scroll');
+  if (nsc) nsc.scrollTop = key === lastKey ? prevScroll : 0;
+  lastKey = key;
+}
+
+var toastTimer;
+function render() {
+  if (nav.view === 'overview') { renderOverview(); lastKey = ''; } else renderRole();
+  save();
+  if (toastMsg) {
+    var host = document.getElementById('app') || document.getElementById('root');
+    var t = document.createElement('div'); t.className = 'toast'; t.setAttribute('role', 'status');
+    t.innerHTML = ic('check', 18, 2.2) + '<span>' + esc(toastMsg) + '</span>';
+    if (!document.getElementById('app')) { t.style.position = 'fixed'; t.style.left = '50%'; t.style.right = 'auto'; t.style.transform = 'translateX(-50%)'; }
+    host.appendChild(t); toastMsg = null;
+    clearTimeout(toastTimer); toastTimer = setTimeout(function () { if (t.parentNode) t.parentNode.removeChild(t); }, 2600);
+  }
+}
+
+/* ================= Événements ================= */
+document.addEventListener('click', function (ev) {
+  var el = ev.target.closest('[data-act],[data-go]');
+  if (!el) return;
+  if (el.hasAttribute('data-act')) {
+    var fn = A[el.getAttribute('data-act')];
+    if (fn) { var r = fn(el.getAttribute('data-arg'), el, ev); if (r !== false) render(); }
+    return;
+  }
+  ev.preventDefault(); go(el.getAttribute('data-go'));
+});
+function setDraft(el) {
+  var k = el.getAttribute('data-draft'), v = el.value;
+  if (k.indexOf('slot:') === 0) { ui.assign[k.slice(5)].slot = +v; return; }
+  if (k.indexOf('note:') === 0) { ui.notes[k.slice(5)] = v; return; }
+  ui[k] = v;
+  if (k === 'rappt') { var h = document.getElementById('rappt-hint'); if (h) h.textContent = dirHint(v.trim()); }
+}
+document.addEventListener('input', function (ev) { var el = ev.target.closest('[data-draft]'); if (el) setDraft(el); });
+document.addEventListener('change', function (ev) {
+  var el = ev.target.closest('[data-draft]'); if (el) setDraft(el);
+  if (ev.target.id === 'photo-in' && ev.target.files && ev.target.files[0]) {
+    var f = ev.target.files[0], rd = new FileReader();
+    rd.onload = function () {
+      var img = new Image();
+      img.onload = function () {
+        var sc = Math.min(1, 640 / Math.max(img.width, img.height)), c = document.createElement('canvas');
+        c.width = Math.round(img.width * sc); c.height = Math.round(img.height * sc);
+        c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+        try { ui.photo = c.toDataURL('image/jpeg', 0.72); } catch (e) { ui.photo = rd.result; }
+        render();
+      };
+      img.src = rd.result;
+    };
+    rd.readAsDataURL(f);
+  }
+});
+document.addEventListener('keydown', function (ev) { if (ev.key === 'Escape' && ui.sheet) { ui.sheet = null; render(); } });
+setInterval(function () { if (nav.view === 'role' && !ui.sheet && !document.activeElement.matches('input,textarea,select')) renderRole(); }, 60000);
+
+/* Ouverture : lien direct (#resident.accueil…) ou vue d’ensemble */
+var hsh = (location.hash || '').slice(1);
+if (hsh && hsh !== 'apercu' && ROLES[hsh.split('.')[0]]) go(hsh); else render();
+})();
+</script>
