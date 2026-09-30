@@ -1,6 +1,6 @@
 // Garde l'app disponible hors ligne pendant la présentation.
 // Changez VERSION à chaque mise à jour pour forcer le rechargement.
-const VERSION = 'gabriel-v4';
+const VERSION = 'gabriel-v5';
 const SHELL = [
   './',
   './index.html',
