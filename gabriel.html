@@ -84,11 +84,10 @@ td.none{color:#9A948A}
 .scroll{flex:1;overflow-y:auto;overscroll-behavior:contain;display:flex;flex-direction:column}
 .top{padding:18px 20px 4px;display:flex;flex-direction:column;gap:14px}
 .topbar{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:44px}
-.brand{display:flex;align-items:center;gap:8px;color:var(--gold-text)}
-.brand span{font-family:var(--display);font-weight:800;letter-spacing:.14em;font-size:14px}
+.logo{width:54px;height:54px;border-radius:12px;object-fit:cover;display:block}
 .back{display:flex;align-items:center;gap:4px;min-height:44px;padding:0 14px 0 8px;margin-left:-8px;border-radius:999px;font-size:17px;font-weight:600}
 .back:hover{background:#ECE8E0}
-.bell{width:46px;height:46px;border-radius:999px;background:var(--card);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;position:relative}
+.bell{width:44px;height:44px;border-radius:999px;background:var(--card);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;position:relative}
 .bdot{position:absolute;top:10px;right:11px;width:9px;height:9px;border-radius:999px;background:var(--bad);border:2px solid #fff}
 .title{font-family:var(--display);font-weight:700;font-size:30px;line-height:1.15}
 .subtitle{font-size:17px;color:var(--muted);line-height:1.4}
@@ -112,7 +111,7 @@ button.row:hover{background:#FBFAF7}
 .alert .ic{color:var(--gold)}
 .alert .rs{color:var(--on-dark-muted)}
 .tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.tile{min-height:118px;padding:16px;border-radius:16px;background:var(--card);border:1px solid var(--line);display:flex;flex-direction:column;justify-content:space-between;gap:12px;text-align:left}
+.tile{min-height:104px;padding:16px;border-radius:16px;background:var(--card);border:1px solid var(--line);display:flex;flex-direction:column;justify-content:space-between;gap:12px;text-align:left}
 .tile .rt{font-size:18px;line-height:1.2}
 .tile.main{background:var(--ink);color:#fff;border-color:var(--ink)}
 .tile.main .ic{color:var(--gold)}
@@ -131,27 +130,42 @@ button.row:hover{background:#FBFAF7}
 .steplist .todo{color:var(--muted);font-weight:500}
 .choices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
 .choices.two{grid-template-columns:repeat(2,minmax(0,1fr))}
-.choice{min-height:88px;padding:12px 8px;border-radius:14px;background:var(--card);border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;font-size:15px;font-weight:600;line-height:1.2}
+.choice{min-height:74px;padding:10px 6px;border-radius:12px;background:var(--card);border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;font-size:14px;font-weight:600;line-height:1.2}
 .choice[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
 .choice[aria-pressed="true"] .ic{color:var(--gold)}
-.choice.flat{min-height:56px;flex-direction:row}
+.choice.flat{min-height:44px;flex-direction:row;padding:6px 10px;font-size:15px}
+.choice small{display:block;font-size:12px;font-weight:500;opacity:.75}
+.choice.day2{flex-direction:column;gap:1px;min-height:54px}
+.floors{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+.floors .choice.flat{min-height:40px;padding:4px}
+.floors .ph{grid-column:span 5}
+.cal{display:flex;flex-direction:column;gap:8px}
+.cal-h{font-size:14px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.hours{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+.hour{min-height:50px;border-radius:10px;border:1px solid var(--line);background:var(--card);display:flex;flex-direction:column;align-items:flex-start;justify-content:center;padding:4px 12px;gap:0;text-align:left}
+.hour b{font-size:15px;font-weight:600}
+.hour small{font-size:13px;color:var(--ok);font-weight:600}
+.hour[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
+.hour[aria-pressed="true"] small{color:var(--gold)}
+.hour:disabled{background:repeating-linear-gradient(135deg,#EEEAE1 0 6px,#E7E2D8 6px 12px);border-color:#E3DED3;color:#8B857A;cursor:not-allowed}
+.hour:disabled small{color:var(--wait)}
 .choice:disabled{background:#EEEAE1;color:#9A948A;text-decoration:line-through;cursor:not-allowed}
-.opt{display:flex;align-items:center;gap:14px;min-height:64px;padding:12px 16px;border-radius:14px;background:var(--card);border:1px solid var(--line);width:100%;text-align:left}
-.opt[aria-pressed="true"]{border:2px solid var(--ink);padding:11px 15px}
+.opt{display:flex;align-items:center;gap:14px;min-height:56px;padding:10px 14px;border-radius:14px;background:var(--card);border:1px solid var(--line);width:100%;text-align:left}
+.opt[aria-pressed="true"]{border:2px solid var(--ink);padding:9px 13px}
 .radio{width:22px;height:22px;flex-shrink:0;border-radius:999px;border:2px solid #B5AE9F}
 .opt[aria-pressed="true"] .radio{border:7px solid var(--ink)}
 .switch{width:56px;height:34px;flex-shrink:0;border-radius:999px;padding:3px;display:flex;justify-content:flex-start;background:var(--field);transition:background .2s}
 .switch span{width:28px;height:28px;border-radius:999px;background:#fff;display:block;box-shadow:0 1px 2px rgba(0,0,0,.2)}
 .switch[aria-checked="true"]{background:var(--ok);justify-content:flex-end}
-.btn{min-height:56px;width:100%;border-radius:14px;background:var(--ink);color:#fff;font-size:18px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:10px;padding:0 20px;text-align:center}
+.btn{min-height:50px;width:100%;border-radius:12px;background:var(--ink);color:#fff;font-size:17px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:10px;padding:0 20px;text-align:center}
 .btn:hover{background:#2a2823}
 .btn.alt{background:var(--card);border:1.5px solid var(--ink);color:var(--ink)}
 .btn.alt:hover{background:#FBFAF7}
-.btn.small{min-height:46px;width:auto;font-size:16px;border-radius:12px;padding:0 16px}
+.btn.small{min-height:40px;width:auto;font-size:15px;border-radius:10px;padding:0 14px}
 .btn.red{background:var(--bad)}
 .btnrow{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 .lbl{font-size:18px;font-weight:600}
-input[type=text],textarea{font-family:var(--text);font-size:17px;padding:14px 16px;border:1.5px solid var(--field);border-radius:14px;background:var(--card);color:var(--ink);width:100%;min-height:56px}
+input[type=text],textarea{font-family:var(--text);font-size:17px;padding:12px 14px;border:1.5px solid var(--field);border-radius:12px;background:var(--card);color:var(--ink);width:100%;min-height:50px}
 textarea{resize:none;line-height:1.4}
 input.big{font-family:var(--display);font-weight:700;font-size:24px;letter-spacing:.04em}
 .photo-add{display:flex;align-items:center;justify-content:center;gap:10px;min-height:56px;border:1.5px dashed #B5AE9F;border-radius:14px;font-size:16px;font-weight:600;cursor:pointer;background:var(--card)}
@@ -165,10 +179,10 @@ input.big{font-family:var(--display);font-weight:700;font-size:24px;letter-spaci
 .quote{font-size:17px;line-height:1.45}
 .empty{padding:26px 18px;display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center}
 .empty .rs{max-width:270px}
-.done{flex:1;padding:36px 24px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center}
-.done .big{width:76px;height:76px;border-radius:999px;background:var(--ok);display:flex;align-items:center;justify-content:center;color:#fff}
-.done h2{font-family:var(--display);font-size:26px;font-weight:700}
-.done p{font-size:17px;color:var(--muted);line-height:1.5}
+.done-screen{flex:1;padding:36px 24px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center}
+.done-screen .big{width:76px;height:76px;border-radius:999px;background:var(--ok);display:flex;align-items:center;justify-content:center;color:#fff}
+.done-screen h2{font-family:var(--display);font-size:26px;font-weight:700}
+.done-screen p{font-size:17px;color:var(--muted);line-height:1.5}
 .days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px}
 .day{min-height:62px;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border:1px solid var(--line);background:var(--card)}
 .day[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
@@ -282,21 +296,48 @@ var PROS = {
   plomb: { name: 'Plomberie Saint-Denis', meta: 'Plombier · libre cet après-midi' },
   electro: { name: 'Électro-Service', meta: 'Électroménagers · demain matin' }
 };
-var SLOTS = [
-  { day: 'today', time: '16 h 30 – 17 h 30' },
-  { day: 'tomorrow', time: '9 h – 11 h' },
-  { day: 'tbd', time: '' }
-];
-var CARRIERS = ['Postes Canada', 'Amazon', 'UPS', 'Purolator', 'Autre'];
+var HOURS = [8, 9, 10, 11, 13, 14, 15, 16];
+var CDAYS = [['today', 'Aujourd’hui'], ['tomorrow', 'Demain'], ['friday', 'Vendredi']];
+var DAYLOW = { today: 'aujourd’hui', tomorrow: 'demain', friday: 'vendredi' };
+function mkSlot(day, start, dur) { return { day: day, start: start, dur: dur, time: start + ' h – ' + (start + dur) + ' h' }; }
+/* Agenda déjà pris en dehors des demandes de l’app */
+var BUSY = {
+  entretien: { tomorrow: [{ start: 8, dur: 4, label: 'Piscine' }] },
+  plomb: { today: [{ start: 8, dur: 4, label: 'Autre chantier' }], tomorrow: [{ start: 13, dur: 4, label: 'Autre chantier' }] },
+  electro: { today: [{ start: 9, dur: 3, label: 'Autre chantier' }], friday: [{ start: 8, dur: 9, label: 'Absent' }] }
+};
+function busyAt(pro, day, h, exceptId) {
+  var b = ((BUSY[pro] || {})[day] || []).filter(function (x) { return h >= x.start && h < x.start + x.dur; })[0];
+  if (b) return b.label;
+  var r = S.requests.filter(function (q) { return q.pro === pro && q.id !== exceptId && !q.old && q.status !== 'nouvelle' && q.slot && q.slot.day === day && q.slot.start != null && h >= q.slot.start && h < q.slot.start + q.slot.dur; })[0];
+  return r ? 'Appt ' + r.appt : null;
+}
+function isPast(day, h) { return day === 'today' && h * 60 <= now(); }
+function daySummary(pro, day) {
+  var m = [8, 9, 10, 11].filter(function (h) { return busyAt(pro, day, h); }).length;
+  var a = [13, 14, 15, 16].filter(function (h) { return busyAt(pro, day, h); }).length;
+  if (m === 4 && a === 4) return 'Complet';
+  if (m === 4) return 'Matin pris';
+  if (a === 4) return 'Après-midi pris';
+  if (!m && !a) return 'Libre';
+  return 'En partie libre';
+}
+var FLOORS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 'PH'];
+function floorsLabel(f) {
+  var nums = f.filter(function (x) { return x !== 'PH'; }).sort(function (a, b) { return a - b; }), parts = [], i = 0;
+  while (i < nums.length) { var j = i; while (j + 1 < nums.length && nums[j + 1] === nums[j] + 1) j++; parts.push(j - i >= 2 ? nums[i] + ' à ' + nums[j] : j > i ? nums[i] + ', ' + nums[j] : String(nums[i])); i = j + 1; }
+  var txt = parts.length ? (nums.length > 1 ? 'Étages ' : 'Étage ') + parts.join(', ') : '';
+  if (f.indexOf('PH') > -1) txt = txt ? txt + ' et penthouses' : 'Penthouses';
+  return txt;
+}
 var DIR = { '908': 'Victorien L.', '1204': 'Julie Tremblay', '612': 'Louis Côté', '305': 'Amélie Pelletier', '1507': 'Nadia Bouchard', '412': 'Paul Roy', '1103': 'Sarah Lévesque', '705': 'Famille Morin' };
-var AUD = { all: 'Tout l’immeuble', floors: 'Étages 8 à 10', unit: 'Un appartement' };
+var AUD = { all: 'Tout l’immeuble', floors: 'Choisir des étages', unit: 'Un appartement' };
 
 /* Horloge de démo : démarre à 14 h 05 */
 function now() { return Math.min(1430, 845 + Math.floor((Date.now() - S.t0) / 60000)); }
 function fmt(m) { var h = Math.floor(m / 60), mm = m % 60; return h + ' h' + (mm ? ' ' + (mm < 10 ? '0' : '') + mm : ''); }
 function rel(m) { var d = now() - m; if (d < 1) return 'à l’instant'; if (d < 60) return 'il y a ' + d + ' min'; return 'il y a ' + Math.floor(d / 60) + ' h'; }
-function slotText(s) { if (!s) return ''; if (s.day === 'tbd') return 'horaire à confirmer'; return (s.day === 'today' ? 'aujourd’hui ' : 'demain ') + s.time; }
-function slotChoice(s) { if (s.day === 'tbd') return 'Le technicien propose'; return (s.day === 'today' ? 'Aujourd’hui ' : 'Demain ') + s.time; }
+function slotText(s) { if (!s) return ''; if (s.day === 'tbd') return 'horaire à confirmer'; return DAYLOW[s.day] + ' ' + s.time; }
 function floorOf(a) { var f = Math.floor(parseInt(a, 10) / 100); return f + (f === 1 ? 'er' : 'e') + ' étage'; }
 function startMin(t) { var m = /(\d+) h ?(\d+)?/.exec(t || ''); return m ? (+m[1]) * 60 + (+(m[2] || 0)) : 9999; }
 
@@ -305,23 +346,24 @@ function seed() {
   return {
     t0: Date.now(), nextId: 144,
     requests: [
-      { id: '0142', appt: '908', title: 'Store du salon', cat: 'stores', desc: 'Le cordon du store du salon est cassé, il ne remonte plus.', hasPhoto: true, access: true, urgent: false, status: 'enroute', pro: 'entretien', slot: { day: 'today', time: '14 h – 16 h' }, eta: '14 h 30', created: 612, log: { envoyee: '10 h 12', prise: '10 h 40', enroute: '13 h 55' } },
+      { id: '0142', appt: '908', title: 'Store du salon', cat: 'stores', desc: 'Le cordon du store du salon est cassé, il ne remonte plus.', hasPhoto: true, access: true, urgent: false, status: 'enroute', pro: 'entretien', slot: mkSlot('today', 14, 2), eta: '14 h 30', created: 612, log: { envoyee: '10 h 12', prise: '10 h 40', enroute: '13 h 55' } },
       { id: '0143', appt: '1204', title: 'Robinet de cuisine', cat: 'plomberie', desc: 'Le robinet fuit sous l’évier, j’ai mis un seau.', hasPhoto: true, access: false, urgent: true, status: 'nouvelle', created: 820, log: { envoyee: '13 h 40' } },
       { id: '0141', appt: '612', title: 'Porte de balcon bloquée', cat: 'stores', desc: 'La porte coulissante du balcon reste coincée à mi-course.', hasPhoto: false, access: true, urgent: false, status: 'nouvelle', created: 785, log: { envoyee: '13 h 05' } },
-      { id: '0139', appt: '305', title: 'Lave-vaisselle', cat: 'electro', desc: 'Le lave-vaisselle ne vidange plus.', hasPhoto: false, access: true, urgent: false, status: 'assignee', pro: 'electro', slot: { day: 'tomorrow', time: '9 h – 11 h' }, created: 540, log: { envoyee: 'hier', prise: 'hier' } },
+      { id: '0139', appt: '305', title: 'Lave-vaisselle', cat: 'electro', desc: 'Le lave-vaisselle ne vidange plus.', hasPhoto: false, access: true, urgent: false, status: 'assignee', pro: 'electro', slot: mkSlot('tomorrow', 9, 2), created: 540, log: { envoyee: 'hier', prise: 'hier' } },
+      { id: '0140', appt: '412', title: 'Four en panne', cat: 'electro', desc: 'Le four ne chauffe plus du tout.', hasPhoto: false, access: false, urgent: false, status: 'assignee', pro: 'electro', slot: mkSlot('today', 14, 1), created: 700, log: { envoyee: '11 h 40', prise: '12 h 10' } },
       { id: '0128', appt: '908', title: 'Lave-vaisselle', cat: 'electro', desc: 'Le lave-vaisselle fait un bruit anormal.', status: 'terminee', old: true, doneLabel: 'Terminée le 12 septembre', log: {} }
     ],
     notifs: [
       { title: 'Le technicien est en route', body: 'Store du salon · il arrive vers 14 h 30', time: '13 h 55', read: false },
-      { title: 'Un colis vous attend à l’accueil', body: 'Postes Canada', time: '11 h 20', read: true }
+      { title: 'Un colis vous attend à l’accueil', body: 'À récupérer à l’accueil', time: '11 h 20', read: true }
     ],
     parcels: [
-      { id: 'p1', appt: '908', carrier: 'Postes Canada', shelf: 'B', when: 'Aujourd’hui 11 h 20', time: '11 h 20', given: false },
-      { id: 'p2', appt: '1507', carrier: 'Amazon', shelf: 'A', when: 'Aujourd’hui 9 h 05', given: false },
-      { id: 'p3', appt: '412', carrier: 'UPS', shelf: 'C', when: 'Hier 16 h 40', given: false },
-      { id: 'p4', appt: '1103', carrier: 'Purolator · 2 colis', shelf: 'D', when: 'Hier 10 h 15', given: false },
-      { id: 'p5', appt: '908', carrier: 'Amazon', given: true, givenLabel: 'Récupéré le 26 septembre' },
-      { id: 'p6', appt: '908', carrier: 'Purolator', given: true, givenLabel: 'Récupéré le 19 septembre' }
+      { id: 'p1', appt: '908', when: 'Aujourd’hui 11 h 20', time: '11 h 20', given: false },
+      { id: 'p2', appt: '1507', when: 'Aujourd’hui 9 h 05', given: false },
+      { id: 'p3', appt: '412', when: 'Hier 16 h 40', given: false },
+      { id: 'p4', appt: '1103', when: 'Hier 10 h 15', given: false },
+      { id: 'p5', appt: '908', given: true, givenLabel: 'Récupéré le 26 septembre' },
+      { id: 'p6', appt: '908', given: true, givenLabel: 'Récupéré le 19 septembre' }
     ],
     visitors: [
       { id: 'v1', appt: '1204', name: 'Service de ménage', kind: 'service', day: 'Aujourd’hui', time: 'vers 14 h', up: true, arrived: false },
@@ -343,7 +385,7 @@ function seed() {
     unseen: {}
   };
 }
-var KEY = 'gabriel-demo-v2';
+var KEY = 'gabriel-demo-v3';
 var S = null;
 try { S = JSON.parse(localStorage.getItem(KEY)); } catch (e) { S = null; }
 if (!S || !S.requests || !S.t0) S = seed();
@@ -356,8 +398,8 @@ function freshUi() {
     sheet: null, loungeDay: 0, loungeRange: '18 h – 23 h',
     vkind: 'visiteur', vname: 'Marc-Antoine Gagnon', vday: 'Aujourd’hui', vtime: 'vers 19 h', vup: false, vsent: false,
     reason: 'Livraison de meubles', eslot: 1, assign: {},
-    annText: 'Coupure d’eau chaude jeudi de 9 h à 11 h, étages 8 à 10.', aud: 'floors', annUnit: '908', annPosted: false,
-    carrier: 'Amazon', rappt: '908', rsaved: null, msg: '', notes: {}, resetArm: false
+    annText: 'Coupure d’eau chaude jeudi de 9 h à 11 h, étages 8 à 10.', aud: 'floors', floors: [8, 9, 10], annUnit: '908', annPosted: false,
+    rappt: '908', rsaved: null, msg: '', notes: {}, resetArm: false
   };
 }
 ui = freshUi();
@@ -381,7 +423,7 @@ function reqById(id) { return S.requests.filter(function (r) { return r.id === i
 function catOf(id) { return CATS.filter(function (c) { return c.id === id; })[0] || CATS[5]; }
 function mine() { return S.requests.filter(function (r) { return r.appt === '908'; }); }
 function activeMine() { return mine().filter(function (r) { return r.status !== 'terminee'; }).sort(function (a, b) { return b.created - a.created; }); }
-function seesAnn(a) { return a.aud === 'all' || a.aud === 'floors' || (a.aud === 'unit' && a.unit === '908'); }
+function seesAnn(a) { return a.aud === 'all' || (a.aud === 'floors' && (a.floors || []).indexOf(9) > -1) || (a.aud === 'unit' && a.unit === '908'); }
 function missionsOf(pro) { return S.requests.filter(function (r) { return r.pro === pro && !r.old && r.status !== 'nouvelle'; }); }
 function currentMission() {
   var ms = missionsOf('entretien');
@@ -396,7 +438,7 @@ function choice(on, act, arg, label, icon, cls) { return '<button type="button" 
 function tag(cls, txt) { return '<span class="tag ' + cls + '">' + esc(txt) + '</span>'; }
 function top(opts) {
   var bar = opts.back ? '<button type="button" class="back" data-go="' + opts.back + '">' + ic('chevL', 24, 2.2) + 'Retour</button>'
-    : '<span class="brand">' + ic('building', 22, 1.6) + '<span>GABRIEL</span></span>';
+    : '<img class="logo" src="logo-gabriel.jpg" alt="Gabriel, appartements de luxe">';
   return '<header class="top"><div class="topbar">' + bar + (opts.right || '') + '</div><div style="display:flex;flex-direction:column;gap:4px"><h1 class="title">' + opts.title + '</h1>' + (opts.sub ? '<p class="subtitle">' + opts.sub + '</p>' : '') + '</div></header>';
 }
 function rowBtn(go, icon, t, s, right) {
@@ -430,7 +472,7 @@ function gSub(r) {
     case 'nouvelle': return 'Reçue ' + rel(r.created);
     case 'assignee': return p + ' · ' + slotText(r.slot);
     case 'enroute': return p + ' · arrive vers ' + r.eta;
-    case 'surplace': return p + ' · sur place';
+    case 'surplace': return p + (r.pro === 'entretien' ? ' · sur place' : r.log.parti ? ' · reparti à ' + r.log.parti + ', à confirmer' : ' · arrivé à l’accueil à ' + r.log.surplace);
     default: return p + ' · terminée à ' + (r.log.terminee || '');
   }
 }
@@ -468,7 +510,7 @@ R['resident.accueil'] = function () {
 
 R['resident.signaler'] = function () {
   if (ui.sentId) {
-    return top({ back: 'resident.accueil', title: 'Signaler un problème' }) + '<main class="done"><span class="big">' + ic('check', 38, 2.4) + '</span><h2>C’est envoyé</h2><p>Karine est prévenue. Vous serez averti quand un technicien est prévu, quand il arrive et quand c’est réparé.</p><button type="button" class="btn" data-go="resident.suivi.' + ui.sentId + '">Suivre ma demande</button><button type="button" class="linkbtn" data-act="resetSignal">Signaler autre chose</button></main>';
+    return top({ back: 'resident.accueil', title: 'Signaler un problème' }) + '<main class="done-screen"><span class="big">' + ic('check', 38, 2.4) + '</span><h2>C’est envoyé</h2><p>Karine est prévenue. Vous serez averti quand un technicien est prévu, quand il arrive et quand c’est réparé.</p><button type="button" class="btn" data-go="resident.suivi.' + ui.sentId + '">Suivre ma demande</button><button type="button" class="linkbtn" data-act="resetSignal">Signaler autre chose</button></main>';
   }
   var h = top({ back: 'resident.accueil', title: 'Signaler un problème', sub: 'Trois questions, et c’est envoyé.' }) + '<main class="body">';
   h += '<section class="sec"><span class="lbl">1. Qu’est-ce qui ne va pas ?</span><div class="choices">' + CATS.map(function (c) { return choice(ui.cat === c.id, 'pickCat', c.id, c.label, c.icon); }).join('') + '</div></section>';
@@ -499,7 +541,7 @@ R['resident.suivi'] = function () {
     var items = [
       ['Demande envoyée', r.log.envoyee],
       ['Technicien choisi', r.pro ? PROS[r.pro].name + ' · ' + slotText(r.slot) : 'Karine s’en occupe'],
-      [r.status === 'surplace' ? 'Le technicien est chez vous' : 'Le technicien arrive', r.log.enroute ? 'Parti à ' + r.log.enroute + (r.status === 'enroute' ? ' · arrivée vers ' + r.eta : '') : ''],
+      [r.status === 'surplace' ? 'Le technicien est chez vous' : 'Le technicien arrive', r.log.surplace && !r.log.enroute ? 'Arrivé à ' + r.log.surplace : r.log.enroute ? 'Parti à ' + r.log.enroute + (r.status === 'enroute' ? ' · arrivée vers ' + r.eta : '') : ''],
       ['Réparation terminée', r.log.terminee ? r.log.terminee + (r.techNote ? ' · « ' + esc(r.techNote) + ' »' : '') : 'Vous serez averti, même absent']
     ];
     h += '<section class="card"><ol class="steplist">' + items.map(function (it, i) {
@@ -559,12 +601,12 @@ R['resident.colis'] = function () {
   var done = S.parcels.filter(function (p) { return p.appt === '908' && p.given; });
   var h = top({ back: 'resident.services', title: 'Mes colis' }) + '<main class="body">';
   h += '<section class="sec"><h2>À récupérer à l’accueil</h2>' + (waiting.length ? '<div class="card list">' + waiting.map(function (p) {
-    return '<div class="row">' + ic('box', 26, 1.6) + '<span class="stack"><span class="rt">' + esc(p.carrier) + '</span><span class="rs">Arrivé ' + esc(p.when.toLowerCase()) + '</span></span></div>';
+    return '<div class="row">' + ic('box', 26, 1.6) + '<span class="stack"><span class="rt">Un colis</span><span class="rs">Arrivé ' + esc(p.when.toLowerCase()) + '</span></span></div>';
   }).join('') + '</div><p class="hint">' + ic('info', 20) + 'L’accueil est ouvert 24 h/24.</p>' : '<div class="card empty"><span class="rt">Rien en attente</span><span class="rs">Vous serez averti dès qu’un colis arrive.</span></div>') + '</section>';
   h += '<section class="card list"><div class="row"><span class="stack"><span class="rt">M’avertir par SMS</span></span>' + sw(S.prefs.sms, 'togglePref', 'sms', 'M’avertir par SMS') + '</div>' +
     '<div class="row"><span class="stack"><span class="rt">Mon colocataire peut les récupérer</span></span>' + sw(S.prefs.co, 'togglePref', 'co', 'Mon colocataire peut récupérer mes colis') + '</div></section>';
   if (done.length) h += '<section class="sec"><h2>Déjà récupérés</h2><div class="card list">' + done.map(function (p) {
-    return '<div class="row"><span class="stack"><span class="rt">' + esc(p.carrier) + '</span><span class="rs">' + esc(p.givenLabel) + '</span></span><span style="color:var(--ok)">' + ic('check', 22, 2.4) + '</span></div>';
+    return '<div class="row"><span class="stack"><span class="rt">Colis</span><span class="rs">' + esc(p.givenLabel) + '</span></span><span style="color:var(--ok)">' + ic('check', 22, 2.4) + '</span></div>';
   }).join('') + '</div></section>';
   return h + '</main>';
 };
@@ -634,19 +676,44 @@ R['gestion.demandes'] = function () {
 R['gestion.demande'] = function () {
   var r = reqById(nav.param);
   if (!r) return R['gestion.demandes']();
-  var a = ui.assign[r.id] || (ui.assign[r.id] = { pro: 'entretien', slot: 0 });
+  var a = ui.assign[r.id] || (ui.assign[r.id] = { pro: 'entretien', day: 'today', start: null, dur: 1, tbd: false });
   var h = top({ back: 'gestion.demandes', title: esc(r.title), sub: 'Appt ' + r.appt + ' · ' + esc(DIR[r.appt] || '') + ' · ' + (r.created ? 'reçue ' + rel(r.created) : 'reçue hier') }) + '<main class="body">';
   h += '<section class="card pad">' + (r.urgent ? tag('bad', 'Urgent') : '') + '<p class="quote">« ' + esc(r.desc) + ' »</p>' + photoBox(r) + '<p class="hint">' + ic(r.access ? 'lock' : 'person', 20, 1.7) + accessText(r) + '</p></section>';
   if (r.status === 'nouvelle') {
     h += '<section class="sec"><span class="lbl">Qui envoyer ?</span>' + Object.keys(PROS).map(function (k) {
-      return '<button type="button" class="opt" aria-pressed="' + (a.pro === k) + '" data-act="pickPro" data-arg="' + r.id + ':' + k + '"><span class="radio"></span><span class="stack"><span class="rt">' + PROS[k].name + '</span><span class="rs">' + PROS[k].meta + '</span></span></button>';
+      return '<button type="button" class="opt" aria-pressed="' + (a.pro === k) + '" data-act="pickPro" data-arg="' + r.id + ':' + k + '"><span class="radio"></span><span class="stack"><span class="rt">' + PROS[k].name + '</span><span class="rs">' + PROS[k].meta + ' · aujourd’hui : ' + daySummary(k, 'today').toLowerCase() + '</span></span></button>';
     }).join('') + '</section>';
-    h += '<section class="sec"><span class="lbl">Quand ?</span><div class="choices">' + SLOTS.map(function (s, i) { return choice(a.slot === i, 'pickGSlot', r.id + ':' + i, slotChoice(s), '', 'flat'); }).join('') + '</div></section>';
-    h += '<button type="button" class="btn" data-act="assign" data-arg="' + r.id + '">Envoyer le technicien</button><p class="hint" style="margin-top:-14px">' + ic('info', 20) + 'Le résident et le technicien sont prévenus automatiquement.</p>';
+    h += '<section class="sec"><span class="lbl">Quand ? <span class="rs" style="font-weight:500">Agenda de ' + PROS[a.pro].name + '</span></span>';
+    h += '<div class="choices">' + CDAYS.map(function (d) {
+      return '<button type="button" class="choice flat day2" aria-pressed="' + (!a.tbd && a.day === d[0]) + '" data-act="pickGDay" data-arg="' + r.id + ':' + d[0] + '"><span>' + d[1] + '</span><small>' + daySummary(a.pro, d[0]) + '</small></button>';
+    }).join('') + '</div>';
+    if (!a.tbd) {
+      h += '<div class="choices two">' + choice(a.dur === 1, 'pickDur', r.id + ':1', 'Durée 1 heure', '', 'flat') + choice(a.dur === 2, 'pickDur', r.id + ':2', 'Durée 2 heures', '', 'flat') + '</div>';
+      var cell = function (hh) {
+        var blocked = null;
+        for (var k = hh; k < hh + a.dur; k++) {
+          if (HOURS.indexOf(k) < 0) { blocked = 'Trop court'; break; }
+          var b = busyAt(a.pro, a.day, k, r.id);
+          if (b) { blocked = k === hh ? 'Pris · ' + b : 'Trop court'; break; }
+          if (isPast(a.day, k)) { blocked = 'Passé'; break; }
+        }
+        var sel = a.start != null && hh >= a.start && hh < a.start + a.dur;
+        return '<button type="button" class="hour" aria-pressed="' + sel + '"' + (blocked && !sel ? ' disabled' : '') + ' data-act="pickHour" data-arg="' + r.id + ':' + hh + '"><b>' + hh + ' h – ' + (hh + 1) + ' h</b><small>' + (sel ? 'Choisi' : blocked || 'Libre') + '</small></button>';
+      };
+      h += '<div class="cal"><div class="cal-h">Matin</div><div class="hours">' + [8, 9, 10, 11].map(cell).join('') + '</div><div class="cal-h">Après-midi</div><div class="hours">' + [13, 14, 15, 16].map(cell).join('') + '</div></div>';
+    }
+    h += '<button type="button" class="linkbtn" data-act="pickTbd" data-arg="' + r.id + '">' + (a.tbd ? ic('check', 18, 2.4) + 'Le technicien proposera un horaire' : 'Pas d’horaire : le technicien proposera') + '</button></section>';
+    var pick = a.tbd ? 'horaire à proposer' : a.start != null ? CDAYS.filter(function (d) { return d[0] === a.day; })[0][1].toLowerCase() + ' ' + a.start + ' h – ' + (a.start + a.dur) + ' h' : '';
+    h += '<button type="button" class="btn" data-act="assign" data-arg="' + r.id + '">' + (pick ? 'Envoyer · ' + pick : 'Envoyer le technicien') + '</button><p class="hint" style="margin-top:-14px">' + ic('info', 20) + 'Le résident et le technicien sont prévenus automatiquement.</p>';
   } else {
-    h += '<section class="card pad"><span class="rt">' + PROS[r.pro].name + '</span><span class="rs" style="margin-top:-10px">' + slotText(r.slot) + '</span>' + gTag(r) + (r.techNote ? '<p class="rs">Note du technicien : « ' + esc(r.techNote) + ' »</p>' : '') + '</section>' +
-      '<p class="hint">' + ic('info', 20) + 'Vous voyez chaque étape ici. Plus besoin d’appeler le technicien ni le résident.</p>' +
-      (r.status === 'assignee' ? '<button type="button" class="btn alt" data-act="unassign" data-arg="' + r.id + '">Changer de technicien</button>' : '');
+    var ext = r.pro !== 'entretien';
+    var log = [['Envoyé', r.log.prise], ['Arrivé', r.log.surplace && (r.log.surplace + (ext ? ' · validé par l’accueil' : ''))], ['Reparti', ext && r.log.parti], ['Réparé', r.log.terminee]].filter(function (x) { return x[1]; });
+    h += '<section class="card pad"><div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><span class="stack"><span class="rt">' + PROS[r.pro].name + '</span><span class="rs">' + slotText(r.slot) + '</span></span>' + gTag(r) + '</div>' +
+      (log.length ? '<div class="list" style="margin:0 -18px">' + log.map(function (x) { return '<div class="row" style="min-height:44px;padding:8px 18px"><span class="stack"><span class="rs">' + x[0] + '</span></span><span class="rt" style="font-size:15px">' + x[1] + '</span></div>'; }).join('') + '</div>' : '') +
+      (r.techNote ? '<p class="rs">Note du technicien : « ' + esc(r.techNote) + ' »</p>' : '') + '</section>';
+    if (ext && r.status === 'surplace') h += '<button type="button" class="btn" data-act="gDone" data-arg="' + r.id + '">Confirmer que c’est réparé</button>';
+    h += '<p class="hint">' + ic('info', 20) + (ext ? 'L’accueil valide l’arrivée et le départ du technicien. Vous le voyez ici en direct.' : 'Le technicien met à jour chaque étape. Vous le voyez ici en direct.') + '</p>' +
+      (r.status === 'assignee' ? '<button type="button" class="btn alt" data-act="unassign" data-arg="' + r.id + '">Changer de technicien ou d’horaire</button>' : '');
   }
   return h + '</main>';
 };
@@ -671,6 +738,7 @@ R['gestion.espaces'] = function () {
     h += '<div class="okbox">' + ic('check', 22, 2.4) + 'Publiée. Les résidents sont prévenus.</div><button type="button" class="btn alt" data-act="newAnn">Écrire une autre annonce</button>';
   } else {
     h += '<textarea id="annonce" rows="3" data-draft="annText" placeholder="Ex. : coupure d’eau jeudi matin.">' + esc(ui.annText) + '</textarea><span class="rs">Pour qui ?</span><div class="choices">' + Object.keys(AUD).map(function (k) { return choice(ui.aud === k, 'pickAud', k, AUD[k], '', 'flat'); }).join('') + '</div>' +
+      (ui.aud === 'floors' ? '<div class="floors" role="group" aria-label="Étages concernés">' + FLOORS.map(function (f) { return choice(ui.floors.indexOf(f) > -1, 'toggleFloor', f, f === 'PH' ? 'Penthouses' : String(f), '', 'flat' + (f === 'PH' ? ' ph' : '')); }).join('') + '</div><span class="rs">' + (ui.floors.length ? 'Envoyé à : ' + floorsLabel(ui.floors) : 'Touchez les étages concernés') + '</span>' : '') +
       (ui.aud === 'unit' ? '<input id="annunit" type="text" inputmode="numeric" data-draft="annUnit" value="' + esc(ui.annUnit) + '" aria-label="Numéro d’appartement">' : '') +
       '<button type="button" class="btn" data-act="postAnn">Publier</button>';
   }
@@ -680,7 +748,10 @@ R['gestion.espaces'] = function () {
 /* ================= Écrans · Technicien ================= */
 var TTAG = { assignee: ['À faire', 'wait'], enroute: ['En route', 'go'], surplace: ['Sur place', 'go'], terminee: ['Terminée', 'ok'] };
 function missionCard(r, isNow) {
-  return '<button type="button" class="mission' + (isNow ? ' now' : '') + '" data-go="tech.mission.' + r.id + '"><div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><span class="when">' + (r.slot.day === 'tbd' ? 'Horaire à proposer' : r.slot.time) + '</span>' + tag(TTAG[r.status][1], TTAG[r.status][0]) + '</div><div class="what"><b>' + r.appt + '</b><span>' + esc(r.title) + '</span></div><span class="rs">' + accessText(r) + '</span></button>';
+  return '<button type="button" class="mission' + (isNow ? ' now' : '') + '" data-go="tech.mission.' + r.id + '"><div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><span class="when">' + (r.slot.day === 'tbd' ? 'Horaire à proposer' : r.slot.day === 'today' ? r.slot.time : slotText(r.slot).replace(/^./, function (c) { return c.toUpperCase(); })) + '</span>' + tag(TTAG[r.status][1], TTAG[r.status][0]) + '</div><div class="what"><b>' + r.appt + '</b><span>' + esc(r.title) + '</span></div><span class="rs">' + accessText(r) + '</span></button>';
+}
+function karineCard() {
+  return '<section class="card row"><span class="stack"><span class="rt">Besoin de Karine ?</span><span class="rs">Gestion de l’immeuble</span></span><button type="button" class="btn small alt" data-act="openMsg" data-arg="tech">' + ic('chat', 18, 1.8) + 'Écrire</button><button type="button" class="btn small" data-act="call" data-arg="Karine">' + ic('phone', 18, 2) + 'Appeler</button></section>';
 }
 R['tech.missions'] = function () {
   var ms = missionsOf('entretien'), cur = currentMission();
@@ -689,9 +760,10 @@ R['tech.missions'] = function () {
   var later = ms.filter(function (r) { return r.slot.day !== 'today' && r.status !== 'terminee'; });
   var done = ms.filter(function (r) { return r.status === 'terminee'; });
   var h = top({ title: 'Mes missions', sub: 'Entretien Gabriel · mercredi 30 sept.' }) + '<main class="body">';
+  h += karineCard();
   h += '<section class="sec"><h2>Aujourd’hui</h2>' + (today.length ? today.map(function (r) { return missionCard(r, cur && r.id === cur.id); }).join('') : '<div class="card empty"><span class="rt">Journée terminée</span><span class="rs">Plus de mission aujourd’hui.</span></div>') + '</section>';
   h += '<section class="sec"><h2>Plus tard</h2>' + later.map(function (r) { return missionCard(r); }).join('') +
-    '<div class="mission"><span class="when">Jeudi · 8 h – 12 h</span><div class="what"><b style="font-size:20px">Piscine</b><span>Entretien du filtre</span></div></div></section>';
+    '<div class="mission"><span class="when">Demain 8 h – 12 h</span><div class="what"><b style="font-size:20px">Piscine</b><span>Entretien du filtre</span></div></div></section>';
   if (done.length) h += '<section class="sec"><h2>Terminées</h2><div class="card list">' + done.map(function (r) { return rowBtn('tech.mission.' + r.id, '', r.appt + ' · ' + esc(r.title), 'Terminée à ' + r.log.terminee, ''); }).join('') + '</div></section>';
   return h + '<p class="hint">' + ic('lock', 20, 1.7) + 'Vous voyez seulement les missions qui vous sont confiées.</p></main>';
 };
@@ -705,7 +777,7 @@ R['tech.mission'] = function () {
     var hint = { assignee: 'Le résident saura que vous êtes en route.', enroute: 'Le résident saura que vous êtes là.', surplace: 'Le résident et Karine seront prévenus.' }[r.status];
     h += '<section class="sec"><span class="lbl" style="font-size:17px">Statut : ' + TTAG[r.status][0].toLowerCase() + '</span><button type="button" class="btn" style="min-height:64px;font-size:20px" data-act="advance" data-arg="' + r.id + '">' + cta + '</button><p class="hint">' + ic('info', 20) + hint + '</p></section>';
     if (r.status === 'surplace') h += '<section class="sec"><label class="lbl" for="note-' + r.id + '" style="font-size:17px">Un mot pour le résident (facultatif)</label><textarea id="note-' + r.id + '" rows="2" data-draft="note:' + r.id + '" placeholder="Ex. : cordon remplacé.">' + esc(ui.notes[r.id] || '') + '</textarea></section>';
-    h += '<button type="button" class="btn alt" style="margin-top:auto" data-act="openMsg" data-arg="tech">Prévenir Karine d’un problème</button>';
+    h += '<div style="margin-top:auto">' + karineCard() + '</div>';
   } else {
     var next = currentMission();
     h += '<div class="okbox">' + ic('check', 22, 2.4) + 'Terminée. Le résident et Karine sont prévenus.</div>' +
@@ -722,16 +794,15 @@ function dirHint(a) {
 R['accueil.colis'] = function () {
   var waiting = S.parcels.filter(function (p) { return !p.given; }).slice().reverse();
   var h = top({ title: 'Colis' }) + '<main class="body">';
-  h += '<section class="card pad"><span class="lbl">Un colis arrive</span>';
+  h += '<section class="card pad"><label class="lbl" for="rappt">Un colis pour quel appartement ?</label>';
   if (ui.rsaved) {
-    h += '<div class="okbox">' + ic('check', 22, 2.4) + esc(ui.rsaved) + '</div><button type="button" class="btn alt" data-act="newParcel">Enregistrer un autre colis</button>';
+    h += '<div class="okbox">' + ic('check', 22, 2.4) + esc(ui.rsaved) + '</div><button type="button" class="btn alt" data-act="newParcel">Un autre colis</button>';
   } else {
-    h += '<label class="rs" for="rappt">Numéro d’appartement</label><input id="rappt" class="big" type="text" inputmode="numeric" data-draft="rappt" value="' + esc(ui.rappt) + '" style="margin-top:-8px"><span class="rs" id="rappt-hint" style="margin-top:-6px">' + esc(dirHint(ui.rappt)) + '</span>' +
-      '<div class="choices">' + CARRIERS.map(function (c) { return choice(ui.carrier === c, 'pickCarrier', c, c, '', 'flat'); }).join('') + '</div>' +
-      '<button type="button" class="btn" data-act="saveParcel">Enregistrer et prévenir</button>';
+    h += '<input id="rappt" class="big" type="text" inputmode="numeric" data-draft="rappt" value="' + esc(ui.rappt) + '" placeholder="908"><span class="rs" id="rappt-hint" style="margin-top:-6px">' + esc(dirHint(ui.rappt)) + '</span>' +
+      '<button type="button" class="btn" data-act="saveParcel">Prévenir le résident</button>';
   }
   h += '</section><section class="sec"><h2>En attente (' + waiting.length + ')</h2><div class="card list">' + waiting.map(function (p) {
-    return '<div class="row"><span class="num">' + p.appt + '</span><span class="stack"><span class="rt">' + esc(p.carrier) + '</span><span class="rs">' + esc(p.when) + '</span></span><button type="button" class="btn small alt" data-act="giveParcel" data-arg="' + p.id + '">Remis</button></div>';
+    return '<div class="row"><span class="num">' + p.appt + '</span><span class="stack"><span class="rs">' + esc(p.when) + '</span></span><button type="button" class="btn small alt" data-act="giveParcel" data-arg="' + p.id + '">Remis</button></div>';
   }).join('') + '</div></section>';
   return h + '</main>';
 };
@@ -744,13 +815,15 @@ R['accueil.visiteurs'] = function () {
       (v.arrived ? '<div class="okbox" style="padding:12px 14px">' + ic('check', 20, 2.4) + 'Arrivé · résident prévenu</div>' : '<button type="button" class="btn" style="min-height:50px;font-size:17px" data-act="arrive" data-arg="' + v.id + '">Il est arrivé</button>') + '</div>';
   }).join('') : '<div class="card empty"><span class="rs">Personne d’annoncé aujourd’hui.</span></div>';
   h += '</section>';
-  var ms = S.requests.filter(function (r) { return r.pro && !r.old && r.slot && r.slot.day === 'today' && r.status !== 'terminee' && r.status !== 'nouvelle'; });
-  var byPro = {};
-  ms.forEach(function (r) { (byPro[r.pro] = byPro[r.pro] || []).push(r); });
-  h += '<section class="sec"><h2>Techniciens attendus</h2><div class="card list">' + (Object.keys(byPro).length ? Object.keys(byPro).map(function (k) {
-    var n = byPro[k].length;
-    return '<div class="row">' + ic('wrench', 24, 1.7) + '<span class="stack"><span class="rt">' + PROS[k].name + '</span><span class="rs">' + n + ' intervention' + (n > 1 ? 's' : '') + ' aujourd’hui</span></span></div>';
-  }).join('') : '<div class="row"><span class="rs">Aucun technicien attendu.</span></div>') + '</div><p class="hint">' + ic('lock', 20, 1.7) + 'Le motif des réparations reste privé.</p></section>';
+  var ext = S.requests.filter(function (r) { return r.pro && r.pro !== 'entretien' && !r.old && r.slot && r.slot.day === 'today' && r.status !== 'nouvelle'; })
+    .sort(function (a, b) { return (a.slot.start || 0) - (b.slot.start || 0); });
+  h += '<section class="sec"><h2>Techniciens extérieurs</h2>' + (ext.length ? ext.map(function (r) {
+    var st = r.log.parti ? '<div class="okbox" style="padding:12px 14px">' + ic('check', 20, 2.4) + 'Reparti à ' + r.log.parti + ' · Karine est prévenue</div>'
+      : r.log.surplace ? '<div style="display:flex;align-items:center;justify-content:space-between;gap:10px">' + tag('go', 'Arrivé à ' + r.log.surplace) + '<button type="button" class="btn small alt" data-act="extLeft" data-arg="' + r.id + '">Il est reparti</button></div>'
+      : '<button type="button" class="btn" data-act="extArrive" data-arg="' + r.id + '">Il est arrivé</button>';
+    return '<div class="card pad"><div style="display:flex;align-items:center;gap:14px">' + ic('wrench', 26, 1.7) + '<span class="stack"><span class="rt">' + PROS[r.pro].name + '</span><span class="rs">Appt ' + r.appt + ' · ' + r.slot.time + '</span></span></div>' + st + '</div>';
+  }).join('') : '<div class="card empty"><span class="rs">Aucun technicien extérieur attendu aujourd’hui.</span></div>') +
+    '<p class="hint">' + ic('info', 20) + 'Karine voit l’arrivée et le départ en direct. Le motif de la réparation reste privé.</p></section>';
   return h + '</main>';
 };
 
@@ -794,7 +867,7 @@ var A = {
     S.messages.push({ from: ui.sheet.from, text: ui.msg.trim(), time: fmt(now()) }); ui.sheet = null; ping('gestion'); toast('Message envoyé à Karine');
   },
   openDoc: function (a) { ui.sheet = { type: 'doc', name: a }; },
-  call: function (a) { toast('Dans l’app, ce bouton appelle ' + a); },
+  call: function (a) { toast('Dans l’app, ce bouton appelle ' + a + ' directement'); },
   toggleAccess: function (id) { var r = reqById(id); r.access = !r.access; ping('gestion'); if (r.pro === 'entretien') ping('tech'); toast(r.access ? 'Le technicien pourra entrer' : 'Votre présence sera demandée'); },
   pickDay: function (a) { ui.loungeDay = +a; },
   pickRange: function (a) { ui.loungeRange = a; },
@@ -814,16 +887,24 @@ var A = {
   sendElevator: function () { S.elevator.push({ id: 'E' + Date.now(), slot: ui.eslot, appt: '908', reason: ui.reason, status: 'pending' }); ping('gestion'); toast('Demande envoyée à Karine'); },
   togglePool: function () { S.spaces.pool = !S.spaces.pool; notifyRes(S.spaces.pool ? 'La piscine est rouverte' : 'La piscine est fermée', S.spaces.pool ? 'Ouverte de 7 h à minuit' : 'Fermée pour le moment'); ping('accueil'); toast(S.spaces.pool ? 'Piscine ouverte · résidents prévenus' : 'Piscine fermée · résidents prévenus'); },
   toggleGym: function () { S.spaces.gym = !S.spaces.gym; notifyRes(S.spaces.gym ? 'La salle de sport est rouverte' : 'La salle de sport est fermée', S.spaces.gym ? 'Ouverte de 7 h à 22 h' : 'Fermée pour le moment'); toast(S.spaces.gym ? 'Salle ouverte · résidents prévenus' : 'Salle fermée · résidents prévenus'); },
-  pickPro: function (a) { var p = a.split(':'); ui.assign[p[0]].pro = p[1]; },
-  pickGSlot: function (a) { var p = a.split(':'); ui.assign[p[0]].slot = +p[1]; },
+  pickPro: function (a) { var p = a.split(':'); ui.assign[p[0]].pro = p[1]; ui.assign[p[0]].start = null; },
+  pickGDay: function (a) { var p = a.split(':'), x = ui.assign[p[0]]; x.day = p[1]; x.start = null; x.tbd = false; },
+  pickDur: function (a) { var p = a.split(':'), x = ui.assign[p[0]]; x.dur = +p[1]; x.start = null; },
+  pickHour: function (a) { var p = a.split(':'), x = ui.assign[p[0]]; x.start = +p[1]; x.tbd = false; },
+  pickTbd: function (id) { var x = ui.assign[id]; x.tbd = !x.tbd; x.start = null; },
   assign: function (id) {
     var r = reqById(id), a = ui.assign[id];
-    r.pro = a.pro; r.slot = SLOTS[a.slot]; r.status = 'assignee'; r.log.prise = fmt(now());
+    if (!a.tbd && a.start == null) { toast('Choisissez un horaire libre dans l’agenda'); return; }
+    r.pro = a.pro; r.slot = a.tbd ? { day: 'tbd', time: '' } : mkSlot(a.day, a.start, a.dur); r.status = 'assignee'; r.log.prise = fmt(now());
     if (r.appt === '908') notifyRes('Un technicien est prévu', r.title + ' · ' + slotText(r.slot));
     if (r.pro === 'entretien') ping('tech');
     ping('accueil'); toast('Technicien envoyé · le ' + r.appt + ' est prévenu');
   },
-  unassign: function (id) { var r = reqById(id); r.status = 'nouvelle'; delete r.pro; delete r.slot; delete r.log.prise; },
+  unassign: function (id) { var r = reqById(id); ui.assign[id] = { pro: r.pro, day: r.slot && r.slot.day !== 'tbd' ? r.slot.day : 'today', start: null, dur: (r.slot && r.slot.dur) || 1, tbd: false }; r.status = 'nouvelle'; delete r.pro; delete r.slot; delete r.log.prise; },
+  gDone: function (id) { var r = reqById(id); r.status = 'terminee'; r.log.terminee = fmt(now()); if (r.appt === '908') notifyRes('C’est réparé', r.title); toast('Réparation confirmée · le ' + r.appt + ' est prévenu'); },
+  extArrive: function (id) { var r = reqById(id); r.status = 'surplace'; r.log.surplace = fmt(now()); if (r.appt === '908') notifyRes('Le technicien est arrivé', r.title); ping('gestion'); toast('Karine voit que ' + PROS[r.pro].name + ' est arrivé'); },
+  extLeft: function (id) { var r = reqById(id); r.log.parti = fmt(now()); ping('gestion'); toast('Karine voit que le technicien est reparti'); },
+  toggleFloor: function (a) { var f = a === 'PH' ? 'PH' : +a, i = ui.floors.indexOf(f); if (i > -1) ui.floors.splice(i, 1); else ui.floors.push(f); },
   decide: function (a) {
     var p = a.split(':'), list = p[0] === 'L' ? S.lounge : S.elevator;
     var x = list.filter(function (i) { return i.id === p[1]; })[0];
@@ -834,9 +915,12 @@ var A = {
   pickAud: function (a) { ui.aud = a; },
   postAnn: function () {
     if (!ui.annText.trim()) { toast('Écrivez d’abord l’annonce'); return; }
-    S.announcements.unshift({ id: 'a' + Date.now(), when: 'à l’instant', title: ui.annText.trim(), body: ui.aud === 'unit' ? 'Pour l’appartement ' + ui.annUnit : AUD[ui.aud], aud: ui.aud, unit: ui.annUnit, isNew: true });
+    if (ui.aud === 'floors' && !ui.floors.length) { toast('Choisissez au moins un étage'); return; }
+    var body = ui.aud === 'unit' ? 'Pour l’appartement ' + ui.annUnit : ui.aud === 'floors' ? floorsLabel(ui.floors) : AUD.all;
+    var ann = { id: 'a' + Date.now(), when: 'à l’instant', title: ui.annText.trim(), body: body, aud: ui.aud, unit: ui.annUnit, floors: ui.floors.slice(), isNew: true };
+    S.announcements.unshift(ann);
     ui.annPosted = true;
-    if (ui.aud !== 'unit' || ui.annUnit === '908') notifyRes('Nouvelle annonce', ui.annText.trim());
+    if (seesAnn(ann)) notifyRes('Nouvelle annonce', ui.annText.trim());
     ping('accueil'); toast('Annonce publiée');
   },
   newAnn: function () { ui.annPosted = false; ui.annText = ''; },
@@ -844,7 +928,7 @@ var A = {
     var r = reqById(id), t = fmt(now());
     if (r.status === 'assignee') {
       r.status = 'enroute'; r.log.enroute = t; r.eta = fmt(now() + 20);
-      if (r.slot.day !== 'today') r.slot = { day: 'today', time: t + ' – ' + fmt(now() + 80) };
+      if (r.slot.day !== 'today') r.slot = mkSlot('today', Math.floor(now() / 60), 1);
       if (r.appt === '908') notifyRes('Le technicien est en route', r.title + ' · il arrive vers ' + r.eta);
       toast('Le résident sait que vous arrivez');
     } else if (r.status === 'enroute') {
@@ -858,12 +942,11 @@ var A = {
     }
     ping('gestion');
   },
-  pickCarrier: function (a) { ui.carrier = a; },
   saveParcel: function () {
     var a = (ui.rappt || '').trim();
     if (!DIR[a]) { toast('Numéro d’appartement inconnu'); return; }
-    S.parcels.push({ id: 'p' + Date.now(), appt: a, carrier: ui.carrier, shelf: 'ABCD'[S.parcels.length % 4], when: 'Aujourd’hui ' + fmt(now()), time: fmt(now()), given: false, isNew: true });
-    if (a === '908') notifyRes('Un colis vous attend à l’accueil', ui.carrier);
+    S.parcels.push({ id: 'p' + Date.now(), appt: a, when: 'Aujourd’hui ' + fmt(now()), time: fmt(now()), given: false, isNew: true });
+    if (a === '908') notifyRes('Un colis vous attend à l’accueil', 'À récupérer quand vous voulez, 24 h/24');
     ui.rsaved = 'Enregistré. Le ' + a + ' est prévenu' + (a !== '908' || S.prefs.sms ? ' (notification et SMS).' : ' (notification).');
     toast('Colis enregistré');
   },
