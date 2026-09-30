@@ -23,6 +23,8 @@ HEAD
   cat <<'FOOT'
 <script>
 if ('serviceWorker' in navigator && location.protocol !== 'file:') {
+  var hadSW = !!navigator.serviceWorker.controller;
+  navigator.serviceWorker.addEventListener('controllerchange', function () { if (hadSW) location.reload(); });
   window.addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function () {}); });
 }
 </script>
