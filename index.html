@@ -399,7 +399,7 @@ function seed() {
       { id: 'a2', when: 'lundi', title: 'Lavage des vitres extérieures', body: 'Semaine du 5 octobre : gardez vos stores baissés.', aud: 'all' }
     ],
     messages: [
-      { id: 'm2', from: '612', text: 'Bonjour Karine, le chauffe-eau fait un bruit de claquement depuis hier soir. Rien d’urgent, mais pouvez-vous faire vérifier cette semaine ?', time: '9 h 40', read: true, replies: [] },
+      { id: 'm2', from: '612', text: 'Bonjour Karine, le chauffe-eau fait un bruit de claquement depuis hier soir. Rien d’urgent, mais pouvez-vous faire vérifier cette semaine ?', time: '9 h 40', read: true, validated: '10 h 05', replies: [] },
       { id: 'm1', from: '1507', text: 'Bonjour, serait-il possible d’avoir une deuxième carte d’accès pour la salle de sport ? Mon conjoint emménage samedi. Merci !', time: '11 h 02', read: false, replies: [] }
     ],
     spaces: { pool: true, gym: true },
@@ -407,7 +407,7 @@ function seed() {
     unseen: {}
   };
 }
-var KEY = 'gabriel-demo-v4';
+var KEY = 'gabriel-demo-v5';
 var S = null;
 try { S = JSON.parse(localStorage.getItem(KEY)); } catch (e) { S = null; }
 if (!S || !S.requests || !S.t0) S = seed();
@@ -686,8 +686,8 @@ R['gestion.tableau'] = function () {
     '<div class="row">' + ic('pool', 26, 1.6) + '<span class="stack"><span class="rt">Piscine</span><span class="rs" style="color:' + (S.spaces.pool ? 'var(--ok)' : 'var(--bad)') + ';font-weight:600">' + (S.spaces.pool ? 'Ouverte' : 'Fermée · résidents prévenus') + '</span></span>' + sw(S.spaces.pool, 'togglePool', '', 'Piscine ouverte') + '</div>' +
     '<div class="row">' + ic('gym', 26, 1.6) + '<span class="stack"><span class="rt">Salle de sport</span><span class="rs" style="color:' + (S.spaces.gym ? 'var(--ok)' : 'var(--bad)') + ';font-weight:600">' + (S.spaces.gym ? 'Ouverte' : 'Fermée · résidents prévenus') + '</span></span>' + sw(S.spaces.gym, 'toggleGym', '', 'Salle de sport ouverte') + '</div>' +
     '</div></section>';
-  var unreadM = S.messages.filter(function (m) { return !m.read; });
-  if (unreadM.length) h += '<section class="sec"><div style="display:flex;justify-content:space-between;align-items:baseline"><h2 style="font-size:18px;font-weight:600">Nouveaux messages (' + unreadM.length + ')</h2><button type="button" class="linkbtn" data-go="gestion.messages">Tout voir</button></div>' + msgList(unreadM.slice().reverse()) + '</section>';
+  var unreadM = S.messages.filter(function (m) { return !m.validated; });
+  if (unreadM.length) h += '<section class="sec"><div style="display:flex;justify-content:space-between;align-items:baseline"><h2 style="font-size:18px;font-weight:600">Messages à valider (' + unreadM.length + ')</h2><button type="button" class="linkbtn" data-go="gestion.messages">Tout voir</button></div>' + msgList(unreadM.slice().reverse()) + '</section>';
   return h + '</main>';
 };
 function msgFrom(m) { return m.from === 'tech' ? 'Technicien · Entretien Gabriel' : 'Appt ' + m.from + ' · ' + (DIR[m.from] || ''); }
@@ -695,7 +695,7 @@ function msgList(list) {
   if (!list.length) return '<div class="card empty"><span class="rs">Aucun message pour le moment.</span></div>';
   return '<div class="card list">' + list.map(function (m) {
     var preview = m.text.length > 70 ? m.text.slice(0, 68).replace(/\s+\S*$/, '') + '…' : m.text;
-    return '<button type="button" class="row" style="align-items:flex-start" data-go="gestion.message.' + m.id + '"><span class="stack"><span class="rt"' + (m.read ? ' style="font-weight:500"' : '') + '>' + esc(msgFrom(m)) + '</span><span class="rs">' + esc(preview) + '</span></span><span style="display:flex;flex-direction:column;align-items:flex-end;gap:6px"><span class="rs" style="font-size:14px">' + m.time + '</span>' + (m.read ? (m.replies.length ? '<span class="rs" style="font-size:13px">Répondu</span>' : '') : '<span class="ping" aria-label="Non lu"></span>') + '</span></button>';
+    return '<button type="button" class="row" style="align-items:flex-start" data-go="gestion.message.' + m.id + '"><span class="stack"><span class="rt"' + (m.validated ? ' style="font-weight:500"' : '') + '>' + esc(msgFrom(m)) + '</span><span class="rs">' + esc(preview) + '</span></span><span style="display:flex;flex-direction:column;align-items:flex-end;gap:6px"><span class="rs" style="font-size:14px">' + m.time + '</span>' + (m.validated ? tag('ok', 'Validé') : tag('wait', 'À valider')) + '</span></button>';
   }).join('') + '</div>';
 }
 R['gestion.messages'] = function () {
@@ -706,11 +706,14 @@ R['gestion.message'] = function () {
   var m = S.messages.filter(function (x) { return x.id === nav.param; })[0];
   if (!m) return R['gestion.messages']();
   m.read = true;
-  var h = top({ back: 'gestion.messages', title: m.from === 'tech' ? 'Technicien' : 'Appartement ' + esc(m.from), sub: esc(m.from === 'tech' ? 'Entretien Gabriel' : DIR[m.from] || '') + ' · reçu à ' + m.time }) + '<main class="body">';
-  h += '<section class="card pad"><p class="quote">' + esc(m.text) + '</p></section>';
-  if (m.replies.length) h += '<section class="sec"><h2>Vos réponses</h2>' + m.replies.map(function (r) { return '<div class="card pad" style="background:#F1ECE1;border-color:#E6DFD0;gap:4px"><span class="rs">Vous · ' + r.time + '</span><span class="quote">' + esc(r.text) + '</span></div>'; }).join('') + '</section>';
-  h += '<section class="sec"><label class="lbl" for="reply">Répondre</label><textarea id="reply" rows="3" data-draft="reply" placeholder="Votre réponse…">' + esc(ui.reply || '') + '</textarea><button type="button" class="btn" data-act="replyMsg" data-arg="' + m.id + '">Envoyer la réponse</button>' +
-    '<p class="hint">' + ic('info', 20) + (m.from === 'tech' ? 'Le technicien reçoit votre réponse sur son téléphone.' : 'Le résident reçoit votre réponse en notification.') + '</p></section>';
+  var h = top({ back: 'gestion.messages', title: m.from === 'tech' ? 'Technicien' : 'Appartement ' + esc(m.from), sub: esc(m.from === 'tech' ? 'Entretien Gabriel' : DIR[m.from] || '') }) + '<main class="body">';
+  h += '<section class="card list"><div class="row"><span class="stack"><span class="rs">Envoyé par</span><span class="rt">' + esc(msgFrom(m)) + '</span></span></div><div class="row"><span class="stack"><span class="rs">Reçu</span><span class="rt">Aujourd’hui à ' + m.time + '</span></span></div></section>';
+  h += '<section class="sec"><h2>Message</h2><div class="card pad"><p class="quote">' + esc(m.text) + '</p></div></section>';
+  if (m.validated) {
+    h += '<div class="okbox">' + ic('check', 22, 2.4) + 'Validé à ' + m.validated + '. ' + (m.from === 'tech' ? 'Le technicien' : 'Le résident') + ' a été prévenu.</div>';
+  } else {
+    h += '<button type="button" class="btn" data-act="validateMsg" data-arg="' + m.id + '">' + ic('check', 22, 2.4) + 'Valider la demande</button><p class="hint" style="margin-top:-14px">' + ic('info', 20) + (m.from === 'tech' ? 'Le technicien' : 'Le résident') + ' sera prévenu que vous avez bien reçu sa demande.</p>';
+  }
   return h + '</main>';
 };
 R['gestion.demandes'] = function () {
@@ -910,12 +913,11 @@ var A = {
     if (!ui.msg.trim()) { toast('Écrivez d’abord votre message'); return; }
     S.messages.push({ id: 'm' + Date.now(), from: ui.sheet.from, text: ui.msg.trim(), time: fmt(now()), read: false, replies: [] }); ui.sheet = null; ping('gestion'); toast('Message envoyé à Karine');
   },
-  replyMsg: function (id) {
-    var m = S.messages.filter(function (x) { return x.id === id; })[0], t = (ui.reply || '').trim();
-    if (!t) { toast('Écrivez d’abord votre réponse'); return; }
-    m.replies.push({ text: t, time: fmt(now()) }); ui.reply = '';
-    if (m.from === '908') notifyRes('Karine vous a répondu', t); else if (m.from === 'tech') ping('tech');
-    toast(m.from === 'tech' ? 'Réponse envoyée au technicien' : 'Réponse envoyée à l’appartement ' + m.from);
+  validateMsg: function (id) {
+    var m = S.messages.filter(function (x) { return x.id === id; })[0];
+    m.validated = fmt(now()); m.read = true;
+    if (m.from === '908') notifyRes('Karine a bien reçu votre demande', '« ' + (m.text.length > 50 ? m.text.slice(0, 48) + '…' : m.text) + ' »'); else if (m.from === 'tech') ping('tech');
+    toast(m.from === 'tech' ? 'Validé · le technicien est prévenu' : 'Validé · l’appartement ' + m.from + ' est prévenu');
   },
   openDoc: function (a) { ui.sheet = { type: 'doc', name: a }; },
   call: function (a) { toast('Dans l’app, ce bouton appelle ' + a + ' directement'); },
@@ -1068,7 +1070,7 @@ function tabsHtml() {
   if (!role.tabs.length) return '';
   var active = (nav.role === 'resident' || nav.role === 'gestion') && TABOF[nav.screen] ? TABOF[nav.screen] : nav.screen;
   return '<nav class="tabs" aria-label="Navigation principale">' + role.tabs.map(function (t) {
-    var dot = t[0] === 'messages' && S.messages.some(function (m) { return !m.read; });
+    var dot = t[0] === 'messages' && S.messages.some(function (m) { return !m.validated; });
     return '<button type="button" class="tab" data-go="' + nav.role + '.' + t[0] + '"' + (active === t[0] ? ' aria-current="page"' : '') + '><span style="position:relative">' + ic(t[2], 26, 1.8) + (dot ? '<span class="tdot" aria-label="Non lu"></span>' : '') + '</span>' + t[1] + '</button>';
   }).join('') + '</nav>';
 }
